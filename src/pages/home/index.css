@@ -15,8 +15,7 @@
 }
 .headerRight::after{
   display: table;  
-  clear: both;
-
-  
+  clear: both; 
 
 }
+

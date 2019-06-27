@@ -1,9 +1,7 @@
 import {Menu ,Icon } from 'antd'
 const {SubMenu} = Menu
 function MenuList(props){
-    handleClick = e =>{
-
-    }
+   
     const lists = props.dataSource
     const  listItems = lists.map(list=>{
         if(!list.children||list.children.length === 0){
@@ -15,10 +13,10 @@ function MenuList(props){
            </SubMenu>
         }
     }) 
-
+   console.log(listItems)
     return (
         
-            <Menu mode="inline"  onClick={this.handleClick}>
+            <Menu mode="inline" >
                 {listItems}
             </Menu>
         
