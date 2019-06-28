@@ -7,5 +7,6 @@ function roomInfo(props){
     return (
         <Rooms rooms={rooms}></Rooms>
     )
+
 }
 export default roomInfo
