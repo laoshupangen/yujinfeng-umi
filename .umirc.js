@@ -10,7 +10,7 @@ export default {
       dynamicImport: true,
       title: 'umi',
       dll: false,
-      
+
       routes: {
         exclude: [
           /models\//,

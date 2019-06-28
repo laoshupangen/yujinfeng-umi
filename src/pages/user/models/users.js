@@ -1,6 +1,4 @@
-import * as usersService from '../services/users'
-
-
+import * as usersService from '../services/userService'
 export default {
     namespaces:'users',
     state:{
@@ -17,9 +15,7 @@ export default {
     },
     effects:{
         *fetch({payload:{page}},{call,put}){
-           
             const {data} = yield call(usersService.fetch,{page})
-            console.log(data)
             yield put({type:'save',payload:{data}})
         },
         *getCampus({payload},{call,put}){

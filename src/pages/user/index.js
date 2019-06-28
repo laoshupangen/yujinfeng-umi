@@ -1,7 +1,9 @@
 import {connect} from 'dva';
 import {Table} from 'antd'
 function Users({list,loading}){
-    const listItems = list.map(item=><div key={item.id}>{item.name}</div>)
+
+    // const listItems = list.data.rows.map(item=><div key={item.id}>{item.name}</div>)
+    console.log(list)
     const columns = [
         {
             title: 'Name',
@@ -15,19 +17,15 @@ function Users({list,loading}){
             key: 'email',
           },
           {
-            title: 'Website',
-            dataIndex: 'website',
-            key: 'website',
+            title: 'UserType',
+            dataIndex: 'userType',
+            key: 'userType',
           },
-          {
-            title: 'Operation',
-            key: 'operation',
-            dataIndex:'id'
-          },
+
     ]
     return (
        <div>
-           <Table loading={loading} dataSource={list} columns={columns}>
+           <Table loading={loading} dataSource={list.data.rows} columns={columns}>
 
            </Table>
        </div>
@@ -44,4 +42,3 @@ function mapStateToProps(state){
 }
 
 export default connect(mapStateToProps)(Users)
-// export default Users;
