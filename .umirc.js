@@ -10,7 +10,7 @@ export default {
       dynamicImport: true,
       title: 'umi',
       dll: false,
-      
+
       routes: {
         exclude: [
           /models\//,
@@ -25,7 +25,7 @@ export default {
 
   proxy:{
     "/api":{
-      target:'http://jsonplaceholder.typicode.com/',
+      target:'http://192.168.1.107/',
       changeOrigin:true,
       pathRewrite: { "^/api" : "" }
     }

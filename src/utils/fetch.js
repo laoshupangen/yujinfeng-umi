@@ -9,11 +9,11 @@ const JsonToString = function(obj){
    let str = ''
    for(let key in obj){
        let value = typeof(obj[key])==='string'?obj[key]:JSON.stringify(obj[key])
-       str += '&' + key + '=' + value 
+       str += '&' + key + '=' + value
    }
    return '?' + str.substr(1)
 }
-const axios = {
+const $ = {
     get:function(url,paramas){
         defaultOptions.method = 'get'
         url += JsonToString(paramas)
@@ -24,8 +24,6 @@ const axios = {
         defaultOptions.method = 'post'
         defaultOptions.data = paramas
         return request(url,defaultOptions)
-
-
     }
 
 }
@@ -50,4 +48,4 @@ const checkStatus = function(res){
     return req
 }
 
-export default axios
+export default $
