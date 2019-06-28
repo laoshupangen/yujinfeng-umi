@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+const API_HOST= 'http://192.168.1.125:10000'
 var defaultOptions = {
     headers:{
         'Content-Type':'application/json'
@@ -17,10 +18,12 @@ const axios = {
     get:function(url,paramas){
         defaultOptions.method = 'get'
         url += JsonToString(paramas)
+        url = API_HOST + url
         return request(url,defaultOptions)
 
     },
     post:function(url,paramas){
+        url = API_HOST + url
         defaultOptions.method = 'post'
         defaultOptions.data = paramas
         return request(url,defaultOptions)

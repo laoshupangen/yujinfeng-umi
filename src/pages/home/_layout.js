@@ -46,8 +46,8 @@ export default function(props) {
 
                 </Menu>
              </Menu.Item>
-              <Menu.Item key="4"><Link to="/home">home测试    </Link></Menu.Item>
-              <Menu.Item key="5">宿舍信息管理</Menu.Item>
+              <Menu.Item key="4"><Link to="/home">home测试</Link></Menu.Item>
+              <Menu.Item key="5"><Link to="/users/users">user</Link></Menu.Item>
               <Menu.Item key="6">房间物品管理</Menu.Item>
               
             </SubMenu>

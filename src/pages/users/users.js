@@ -35,7 +35,7 @@ function Users({list,loading}){
 }
 
 function mapStateToProps(state){
-    console.log(state.loading)
+    console.log(state)
     const {list} = state.users
     return {
         list,
