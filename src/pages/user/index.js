@@ -1,9 +1,9 @@
 import {connect} from 'dva';
 import {Table} from 'antd'
-function Users({list,loading}){
+function Users({campus,loading}){
 
     // const listItems = list.data.rows.map(item=><div key={item.id}>{item.name}</div>)
-    console.log(list)
+    
     const columns = [
         {
             title: 'Name',
@@ -25,7 +25,7 @@ function Users({list,loading}){
     ]
     return (
        <div>
-           <Table loading={loading} dataSource={list.data.rows} columns={columns}>
+           <Table loading={loading} dataSource={campus} columns={columns}>
 
            </Table>
        </div>
@@ -33,10 +33,11 @@ function Users({list,loading}){
 }
 
 function mapStateToProps(state){
-    console.log(state)
-    const {list} = state.users
+    // console.log(state)
+    // const campus= state.users.campus.data.rows
+    const campus = ''
     return {
-        list,
+        campus,
         loading:state.loading.models.users
     }
 }

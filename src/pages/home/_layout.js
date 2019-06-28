@@ -21,7 +21,7 @@ export default function(props) {
           <div className={styles.headerRight}>
             <div>你好,{user.name}!</div>
             <div>|</div>
-            <div>退出</div>
+            <div><Link to='/login'>退出</Link></div>
           </div>
       </Header>
       
@@ -38,13 +38,10 @@ export default function(props) {
             >
             
               <Menu.Item key="3">
-                
-               
-                  <Menu.Item><Link to="/home/campus">学区</Link></Menu.Item>
-                
+              <Link to="/home/campus">学区</Link>
              </Menu.Item>
               <Menu.Item key="4"><Link to="/home">home测试</Link></Menu.Item>
-              <Menu.Item key="5"><Link to="/users/users">user</Link></Menu.Item>
+              <Menu.Item key="5"><Link to="/user">user</Link></Menu.Item>
               <Menu.Item key="6">房间物品管理</Menu.Item>
               
             </SubMenu>

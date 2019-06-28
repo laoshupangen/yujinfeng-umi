@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import router from 'umi/router'
 const API_HOST= 'http://192.168.1.125:10000'
 var defaultOptions = {
     headers:{
@@ -25,26 +26,36 @@ const $ = {
     post:function(url,paramas){
         url = API_HOST + url
         defaultOptions.method = 'post'
-        defaultOptions.data = paramas
+        // console.log(paramas)
+        defaultOptions.body = JSON.stringify(paramas)
         return request(url,defaultOptions)
     }
 
 }
 
 
-const checkStatus = function(res){
+const checkStatus = function(res){  
+    
     if(res.status>=200&&res.status<300){
         return res;
     }
-    const error = new Error(res.statusText);
-    error.res = res;
-    throw error;
+    // 404处理
+    if(res.status === 404){
+        router.push('/404')
+    }else{
+        router.push('/error')
+    }
+
+    // const error = new Error(res.statusText);    
+    // error.res = res;
+    // throw error;
 }
 
  async function request(url,options){
     const res = await fetch(url,options);
     checkStatus(res)
     const data = await res.json()
+    console.log(data)
     const req = {
         data
     }

@@ -1,29 +1,118 @@
 import styles from './login.css'
-import {Form,Input,Button,Icon} from 'antd'
-export default function(props){
-    const colStyle = {}
-    const handleSubmit = function(e){
-      console.log(e)
+import { Form, Input, Button, Icon, message, Row, Col } from 'antd'
+import md5 from 'md5'
+import router from 'umi/router';
+import { connect } from 'dva';
+import { Login } from '@/services/index'
+const App = function (props) {
+    const state = {
+        userName: '',
+        password: ''
     }
+    const getFormName = (e) => {
+        e.persist()
+        state.userName = e.target.value
+    }
+    const getFormPassword = (e) => {
+        e.persist()
+        state.password = e.target.value
+    }
+
+    // 校验用户名[/^1(3|4|5|7|8)\d{9}$/,/(\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14})/]
+    const valid = function (str) {
+        let phoneReg = /^1(3|4|5|7|8)\d{9}$/,
+            emailReg = /(\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14})/
+        if (phoneReg.test(str)) {
+            return 2
+        } else if (emailReg.test(str)) {
+            return 1
+        } else {
+            return 0
+        }
+
+    }
+
+    const handleSubmit = function (e) {
+        e.preventDefault()
+        if (state.password === '' || state.userName === '') {
+            message.warn('账号或密码不能为空')
+            return
+        }
+
+        let k = valid(state.userName), login;
+        state.password = md5(state.password)
+        console.log(state.userName, k)
+        switch (k) {
+            case 0:
+                login = Login({ account: state.userName, password: state.password })
+                break;
+            case 1:
+                login = Login({ email: state.userName, password: state.password })
+                break;
+            case 2: login = Login({ phone: state.userName, password: state.password })
+                break;
+        }
+
+        login.then(res => {
+            if (res.data.code === 0) {
+                router.push('/home')
+            } else {
+                message.error('账号或密码错误,请重新输入');
+            }
+
+        })
+
+
+    }
+    const formItemLayout = {
+        labelCol: {
+            xs: { span: 6 },
+            sm: { span: 12 }
+
+        },
+        wrapperCol: {
+            xs: { span: 6 },
+            sm: { span: 12 },
+
+
+
+        },
+    };
+
     return (
-        <div className={styles.container}>
-           <Form onSubmit={handleSubmit}>
-               <Form.Item >
-                   <Input placeholder="用户名"
-                   prefix={<Icon type="user" style={{color:'rgba(0,0,0,.25)'}}/>}/>
+        <Row className={styles.container}>
+            <Col xs={{span:12,offset:6}} sm={{span:6,offset:9}}>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Item >
+                        <Input placeholder="用户名/手机号/邮箱"
+                            onChange={getFormName}
+                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />
 
-               </Form.Item>
-               
-                   <Form.Item >
-                       <Input type="password" placeholder="密码"
-                       prefix={<Icon type="lock" style={{color:'rgba(0,0,0,.25)'}}/>}/>
-                   </Form.Item>
+                    </Form.Item>
 
-               <Form.Item>
-                   <Button type="primary" htmlType="submit" className={styles.loginForm}>登陆</Button>
+                    <Form.Item >
+                        <Input type="password" placeholder="密码"
+                            onChange={getFormPassword}
+                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} />
+                    </Form.Item>
 
-               </Form.Item>
-           </Form>
-        </div>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className={styles.loginForm}>登陆</Button>
+
+                    </Form.Item>
+                </Form>
+
+            </Col>
+
+        </Row>
+
+
     )
 }
+function mapState(state) {
+
+}
+
+
+// export default connect(mapState)(Login)
+export default App

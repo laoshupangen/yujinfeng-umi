@@ -21,6 +21,7 @@ export default {
         *getCampus({payload},{call,put}){
             const {data} = yield call(usersService.getCampusList)
             console.log(data)
+            // data = data.data.rows
             yield put({type:'scampus',payload:{data}})
         }
 
