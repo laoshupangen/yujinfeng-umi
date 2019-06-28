@@ -27,7 +27,7 @@ export default function(props) {
       
       <Layout style={{height:'100%'}}>
       <Sider theme="light" width='140' style={{height:'100%',background:'#666',overflow:'auto'}}>
-      <Menu style={{background:'#666',color:'#fff',borderRight:'none'}} mode="vertical">
+      <Menu style={{background:'#666',color:'#fff',borderRight:'none'}} mode="inline">
            
             <SubMenu
               key="sub1"
@@ -38,13 +38,10 @@ export default function(props) {
             >
             
               <Menu.Item key="3">
-                {/* <Link to="home/roomInfo">基础数据</Link> */}
-                <Menu mode="vertical" style={{borderRight:'none'}}>
-                <SubMenu title={<span>基础数据</span>}>
+                
+               
                   <Menu.Item><Link to="/home/campus">学区</Link></Menu.Item>
-                </SubMenu>
-
-                </Menu>
+                
              </Menu.Item>
               <Menu.Item key="4"><Link to="/home">home测试    </Link></Menu.Item>
               <Menu.Item key="5">宿舍信息管理</Menu.Item>
