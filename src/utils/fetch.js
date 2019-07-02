@@ -1,6 +1,7 @@
 import fetch from 'dva/fetch';
 import router from 'umi/router'
-const API_HOST= 'http://192.168.1.125:10000'
+import { message } from 'antd';
+const API_HOST= 'http://192.168.1.107/api'
 var defaultOptions = {
     headers:{
         'Content-Type':'application/json'
@@ -40,22 +41,27 @@ const checkStatus = function(res){
         return res;
     }
     // 404处理
-    if(res.status === 404){
-        router.push('/404')
-    }else{
-        router.push('/error')
-    }
+    // if(res.status === 404){
+    //     router.push('/404')
+    // }else{
+    //     router.push('/error')
+    // }
 
-    // const error = new Error(res.statusText);    
-    // error.res = res;
-    // throw error;
+    const error = new Error(res.statusText);    
+    error.res = res;
+    throw error;
 }
-
+//约定接口返回结构{code:,msg:,data:}code=0时,代表接口无异常，其他均为异常
  async function request(url,options){
     const res = await fetch(url,options);
     checkStatus(res)
     const data = await res.json()
     console.log(data)
+    if(data.code!==0){
+        message.error(data.msg)
+            
+        // throw new Error(data.msg)
+    }
     const req = {
         data
     }

@@ -20,7 +20,9 @@ export default {
     },
     subscriptions:{
         setup({dispatch,history}){
-            return history.listen(({pathname,query})=>{               
+            
+            return history.listen(({pathname,query})=>{
+                             
                 // dispatch({type:'Login',payload:query})                
                 // if(pathname === '/users/users'){
                 //     console.log(pathname)

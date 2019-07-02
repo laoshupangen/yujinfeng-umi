@@ -1,26 +1,23 @@
 import { Table, Button } from 'antd'
-export default function (props) {
+import {getCampusPage} from './service'
+const campus = function (props) {
   const colums =
     [
-      { title: '操作', key: 'action', render: (text, record) => (<span><a style={{ paddingRight: '1rem' }} href="javascript:">修改</a><a href="javascript:">删除</a></span>) },
-      { title: '学区名称', dataIndex: 'name', key: 'name' }, { title: '学区编号', dataIndex: 'number', key: 'number' },
-      { title: '地址', dataIndex: 'address', key: 'address' }, { title: '宿舍楼栋数', dataIndex: 'buildingCount', key: 'building' }]
+      { title: '操作', key: 'action', render: (text, record) => (<span><a style={{ paddingRight: '1rem' }} href="javascript:">修改</a><a href="javascript:">删除</a></span>),align:'center' },
+      { title: '学区名称', dataIndex: 'name', key: 'name',align:'center'  }, { title: '学区编号', dataIndex: 'number', key: 'number',align:'center'  },
+      { title: '地址', dataIndex: 'address', key: 'address',align:'center'}, 
+      { title: '宿舍楼栋数', dataIndex: 'buildingCount', key: 'building',align:'center' }]
 
-  const data = [
-    {
-      "id": "21b51421-e39a-4a09-a689-8ce6e5ba8bf9",
-      "name": "东区1",
-      "number": "C-0011",
-      "address": "东区地址",
-      "buildingCount": 1,
-      "roomCount": 60
-    }
-  ]
-
+  var data = [],loading = true
+  
+ 
+  console.log(data)
   return (
     <div>
       <Button>增加</Button>
-      <Table bordered columns={colums} dataSource={data} style={{ textAlign: 'center' }}></Table>
+      <Table bordered loading={loading} columns={colums} dataSource={data} ></Table>
     </div>
   )
 }
+
+export default campus

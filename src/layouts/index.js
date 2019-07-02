@@ -5,7 +5,7 @@ import styles from './index.css';
 
 function BasicLayout(props) {  
   // matchRoutes(props.location.pathname,props.route.routes)?null:location.pathname = '404'
-  console.log(props)
+  // console.log(props)
   return (
     <div className={styles.normal}>     
       {        
