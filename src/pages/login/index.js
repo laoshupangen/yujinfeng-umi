@@ -1,13 +1,15 @@
 import styles from './login.css'
 import { Form, Input, Button, Icon, message, Row, Col } from 'antd'
 import md5 from 'md5'
-import router from 'umi/router';
+
 import { connect } from 'dva';
-import { Login } from '@/services/index'
+
+
 const App = function (props) {
+    console.log(props)
     const state = {
         userName: '',
-        password: ''
+        password: '',        
     }
     const getFormName = (e) => {
         e.persist()
@@ -33,51 +35,32 @@ const App = function (props) {
     }
 
     const handleSubmit = function (e) {
-        e.preventDefault()
+        e.preventDefault()       
+        
         if (state.password === '' || state.userName === '') {
             message.warn('账号或密码不能为空')
             return
         }
-
-        let k = valid(state.userName), login;
+        let k = valid(state.userName);
         state.password = md5(state.password)
         console.log(state.userName, k)
+        props.dispatch({type:'user/btnStatus',payload:{data:true}})
         switch (k) {
             case 0:
-                login = Login({ account: state.userName, password: state.password })
+                props.dispatch({ type: 'user/Login',payload:{account:state.userName,password:state.password}});
                 break;
             case 1:
-                login = Login({ email: state.userName, password: state.password })
+                props.dispatch({ type: 'user/Login',payload:{email:state.userName,password:state.password}});
                 break;
-            case 2: login = Login({ phone: state.userName, password: state.password })
+            case 2:               
+               props.dispatch({ type: 'user/Login',payload:{phone:state.userName,password:state.password}});               
                 break;
         }
-
-        login.then(res => {
-            if (res.data.code === 0) {
-                router.push('/home')
-            } else {
-                message.error('账号或密码错误,请重新输入');
-            }
-
-        })
+        
 
 
     }
-    const formItemLayout = {
-        labelCol: {
-            xs: { span: 6 },
-            sm: { span: 12 }
-
-        },
-        wrapperCol: {
-            xs: { span: 6 },
-            sm: { span: 12 },
-
-
-
-        },
-    };
+  
 
     return (
         <Row className={styles.container}>
@@ -97,7 +80,7 @@ const App = function (props) {
                     </Form.Item>
 
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className={styles.loginForm}>登陆</Button>
+                        <Button loading={props.loading} type="primary" htmlType="submit" className={styles.loginForm}>登陆</Button>
 
                     </Form.Item>
                 </Form>
@@ -110,9 +93,12 @@ const App = function (props) {
     )
 }
 function mapState(state) {
-
+  console.log(state)
+  return {
+      loading:state.user.btnStatus,      
+  };
 }
 
 
-// export default connect(mapState)(Login)
-export default App
+export default connect(mapState)(App)
+// export default App

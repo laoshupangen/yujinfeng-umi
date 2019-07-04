@@ -19,7 +19,7 @@ const JsonToString = function(obj){
 const $ = {
     get:function(url,paramas){
         defaultOptions.method = 'get'
-        url += JsonToString(paramas)
+        url += JsonToString(paramas.paramas)
         url = API_HOST + url
         return request(url,defaultOptions)
 

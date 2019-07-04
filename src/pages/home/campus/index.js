@@ -1,6 +1,9 @@
 import { Table, Button } from 'antd'
-import {getCampusPage} from './service'
-const campus = function (props) {
+import {connect} from 'dva'
+const campus = function ({campus,loading}) {
+  console.log(campus)
+  let dataSource = campus.campusdata.data?campus.campusdata.data.data.map(item=>{item.key=item.id;return item}):campus.campusdata
+ 
   const colums =
     [
       { title: '操作', key: 'action', render: (text, record) => (<span><a style={{ paddingRight: '1rem' }} href="javascript:">修改</a><a href="javascript:">删除</a></span>),align:'center' },
@@ -8,16 +11,23 @@ const campus = function (props) {
       { title: '地址', dataIndex: 'address', key: 'address',align:'center'}, 
       { title: '宿舍楼栋数', dataIndex: 'buildingCount', key: 'building',align:'center' }]
 
-  var data = [],loading = true
   
- 
-  console.log(data)
+  
   return (
     <div>
       <Button>增加</Button>
-      <Table bordered loading={loading} columns={colums} dataSource={data} ></Table>
+      <Table bordered loading={loading} columns={colums} dataSource={dataSource} ></Table>
     </div>
   )
 }
 
-export default campus
+function mapStateToProps(state){
+   console.log(state)
+   const {campus,loading} = state
+   return {
+     campus,
+     loading:loading.models.campus
+   }
+}
+
+export default connect(mapStateToProps)(campus)
