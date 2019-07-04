@@ -21,7 +21,6 @@ function Users({campus,loading}){
             dataIndex: 'userType',
             key: 'userType',
           },
-
     ]
     return (
        <div>

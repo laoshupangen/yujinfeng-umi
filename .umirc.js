@@ -2,6 +2,7 @@
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
+  singular:true,
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
@@ -14,7 +15,9 @@ export default {
       routes: {
         exclude: [
           /models\//,
+          /model\//,
           /services\//,
+          /service\//,
           /model\.(t|j)sx?$/,
           /service\.(t|j)sx?$/,
           /components\//,
@@ -22,6 +25,7 @@ export default {
       },
     }],
   ],
+  
 
   // proxy:{
   //   "/api":{

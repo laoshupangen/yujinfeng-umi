@@ -1,4 +1,4 @@
-import * as usersService from '../services/userService'
+import * as usersService from '../service/userService'
 export default {
     namespaces:'users',
     state:{

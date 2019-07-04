@@ -4,13 +4,13 @@ import { connect } from 'dva'
 export default connect(state => {
 
   console.table(state)
-  const { campus, loading } = state
-  return { campus, loading: loading.models.campus }
+  const { building, loading } = state
+  return { building, loading: loading.models.building }
 
-})(function ({ campus, loading }) {
-  let dataSource = campus.campusdata.data
-    ? campus.campusdata.data.data.map(item => { item.key = item.id; return item })
-    : campus.campusdata
+})(function ({ building, loading }) {
+  let dataSource = building.campusdata.data
+    ? building.campusdata.data.data.map(item => { item.key = item.id; return item })
+    : building.campusdata
   const colums =
     [
       { title: '操作', key: 'action', render: (text, record) => (<span><a style={{ paddingRight: '1rem' }} href="javascript:">修改</a><a href="javascript:">删除</a></span>), align: 'center' },
