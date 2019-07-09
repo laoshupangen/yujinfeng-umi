@@ -2,7 +2,7 @@
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
-  singular:true,
+  
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {
@@ -11,18 +11,8 @@ export default {
       dynamicImport: true,
       title: 'umi',
       dll: false,
-
-      routes: {
-        exclude: [
-          /models\//,
-          /model\//,
-          /services\//,
-          /service\//,
-          /model\.(t|j)sx?$/,
-          /service\.(t|j)sx?$/,
-          /components\//,
-        ],
-      },
+      
+      
     }],
   ],
   

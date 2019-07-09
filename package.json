@@ -36,5 +36,11 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  }
+  },
+  "name": "umi",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:laoshupangen/yujinfeng-umi.git",
+  "author": "caihui",
+  "license": "MIT"
 }

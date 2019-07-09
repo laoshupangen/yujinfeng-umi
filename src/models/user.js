@@ -1,8 +1,8 @@
-import * as services from '@/services'
+import * as services from '@/service'
 import { routerRedux } from 'dva/router';
 import {message} from 'antd'
 export default {
-    namespaces:'user',
+    namespace:'user',
     state:{
       user:{},
       loginStatus:false,

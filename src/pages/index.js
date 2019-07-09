@@ -1,6 +1,6 @@
 import Redirect from 'umi/redirect';
 import {connect} from 'dva'
-function Home(props){
+function App(props){
     console.log('pages/index',props)
     return (
 
@@ -10,4 +10,5 @@ function Home(props){
         
     )
 }
-export default connect(state=>{return{isLogin:state.user.loginStatus}})(Home)
+// export default connect(state=>{return{isLogin:state.user.loginStatus}})(Home)
+export default App

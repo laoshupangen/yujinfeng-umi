@@ -43,7 +43,7 @@ const App = function (props) {
         }
         let k = valid(state.userName);
         state.password = md5(state.password)
-        console.log(state.userName, k)
+        
         props.dispatch({type:'user/btnStatus',payload:{data:true}})
         switch (k) {
             case 0:

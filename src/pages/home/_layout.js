@@ -45,7 +45,7 @@ export default function (props) {
         </Sider>
         <Content>
           {props.children}
-          {console.log(props)}
+         
         </Content>
       </Layout>
 

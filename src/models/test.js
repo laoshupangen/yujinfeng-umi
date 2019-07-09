@@ -1,4 +1,4 @@
-import * as services from '@/services/index'
+import * as services from '@/service'
 const models = {
     namespaces:'template',
     state:{
