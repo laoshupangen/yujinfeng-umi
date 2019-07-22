@@ -30,4 +30,5 @@ function mapStateToProps(state){
    }
 }
 
-export default connect(mapStateToProps)(campus)
+// export default connect(mapStateToProps)(campus)
+export default campus

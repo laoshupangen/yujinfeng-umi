@@ -1,3 +1,14 @@
 {
-  "extends": "eslint-config-umi"
+  "env":{
+    "browser": false,
+    "node":false
+
+  },
+  "extends": "eslint-config-umi",
+
+  "rules":{
+    "no-unused-vars":[
+      "off"
+    ]
+  }
 }

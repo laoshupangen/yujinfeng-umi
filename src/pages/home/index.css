@@ -1,12 +1,14 @@
+
+
 .headerLeft {
-  color:#fff;
+  color: #fff;
   font-size: 20px;
   font-weight: bold;
 }
 .headerRight{
   float: right;
   font-size: 14px;
-  color:#fff;
+  color: #fff;
   position: relative;
 }
 .headerRight div{
@@ -18,4 +20,41 @@
   clear: both; 
 
 }
+.trigger {
+  font-size: 18px;
+  line-height: 40px;
+  /* padding: 0 24px; */
+  cursor: pointer;
+  transition: color 0.3s;
+  color: #fff;
+}
+.triggerWrap{
+  text-align: center;
+  /* background: #fff; */
+}
+.cheader{
+  /* padding: 5px ; */
+  background: #fff;
+  width:100%;
+  border-bottom: 2px solid #2c3e50;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
 
+}
+.cheader_item{
+  padding: 5px;
+  margin-right: 5px;
+  user-select: none;
+  cursor: pointer;
+}
+.cheader_item:first-child{
+  padding: 5px 20px;
+}
+.cheader_item:not(:first-child){
+  color: #fff;
+  background: #2c3e50;
+}
+.cheader_item:not(:first-child) a{
+  color: #fff
+}

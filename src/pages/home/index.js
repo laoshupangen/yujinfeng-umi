@@ -2,7 +2,7 @@ import Redirect from 'umi/redirect';
 export default function(props){
     return (
         <div>
-            <Redirect to="home/campus"/>
+            欢迎首页
         </div>
     )
 }

@@ -39,9 +39,9 @@ export default {
     },
     subscriptions:{
         setup({dispatch,history}){
-            console.log('test订阅0',dispatch)            
+            // console.log('test订阅0',dispatch)            
             return history.listen(({pathname,query})=>{
-                console.log('test订阅',pathname)             
+                // console.log('test订阅',pathname)             
                 // dispatch({type:'Login',payload:query})                
                 // if(pathname === '/users/users'){
                 //     console.log(pathname)

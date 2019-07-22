@@ -1,21 +1,19 @@
 import $ from '@/utils/fetch'
 // 添加房间
-export const addRoom = ({buildingId,number,floor,title,bedCount,type})=>{
-    return $.post('/Room/create',{buildingId,number,floor,title,bedCount,type})
+export const addRoom = ({buildingId,number,floor,title,bedCount,allowGender=0})=>{
+    return $.post('/Room/Add',{buildingId,number,floor,title,bedCount,allowGender})
 }
 // 编辑房间信息
-export const editRoom = ({id,buildingId,number,floor,title,bedCount,type})=>{
-    return $.post('/Room/modify',{id,buildingId,number,floor,title,bedCount,type})
+export const editRoom = ({id,buildingId,number,floor,title,bedCount,allowGender})=>{
+    return $.post('/Room/Update',{id,buildingId,number,floor,title,bedCount,allowGender})
 }
 // 删除
-export const deleteRoom = (id)=>{
-    return $.get('/Room/Delete',{params:{id}})
+export const deleteRoom = ({id})=>{
+    return $.post('/Room/Delete',{id})
 } 
 // 获取房间列表
 export const getRoom = ({pageSize,pageIndex,sortName,sortOrder})=>{
-    return $.get('/Room/Getpage',{
-        pageSize,pageIndex,sortName,sortOrder
-    })
+    return $.post('/Room/Page',{pageSize,pageIndex,sortName,sortOrder})
 } 
 // 单个房间分配
 export const assignRoom = ({ studentId,roomId})=>{
