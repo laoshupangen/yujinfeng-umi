@@ -27,7 +27,7 @@ const models = {
             return history.listen(({pathname,query})=>{
                 if(pathname === '/home/campus'){
                     // console.log('query',query)
-                    dispatch({type:'get',payload:{keywords:''}})
+                    // dispatch({type:'get',payload:{keywords:''}})
                 }
             })
         }

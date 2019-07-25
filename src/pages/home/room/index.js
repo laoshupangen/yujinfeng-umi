@@ -1,5 +1,4 @@
 import { Table, Button, Modal, Form, Input ,InputNumber,Popconfirm} from 'antd'
-import EditableCell from '@/components/EditableCell.js'
 import { connect } from 'dva'
 import { Component} from 'react';
 
@@ -7,15 +6,7 @@ const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 12 },
 };
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  // getCheckboxProps: record => ({
-  //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
-  //   name: record.name,
-  // }),
-};
+
 class Room extends Component {
   state = {
     data: [],
@@ -121,7 +112,7 @@ class Room extends Component {
       <div>
         <div><Button onClick={this.showModal}>增加</Button></div>
         <Table
-          rowSelection={rowSelection}
+          
           columns={this.columns}
           rowKey={record => record.id}
           dataSource={this.props.data}

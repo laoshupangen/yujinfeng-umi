@@ -1,7 +1,7 @@
 import fetch from 'dva/fetch';
 import router from 'umi/router'
 import { message } from 'antd';
-const API_HOST= 'http://192.168.1.163:80/api'
+const API_HOST= 'http://192.168.1.125:10000/api'
 
 
 
@@ -12,7 +12,7 @@ var defaultOptions = {
         
     },
     // credentials: 'include',
-    // mode:'cors'  
+    mode:'no-cors'  
 }
 const JsonToString = function(obj){
    let str = ''
