@@ -17,6 +17,59 @@ a{
   padding: 5px 5px!important;
   
 }
-
+.selfcontainer{
+  width: 120px;
+  border:1px solid #eee;
+  box-shadow: 0 0 2px 2px #ccc;
+  box-sizing: content-box !important;
+  border-radius: 5px;
+  margin: 5px 10px;
+  position: relative; 
+  transition: all .3s ease;
+}
+.selfFlex{
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex !important;
+  align-items: center;
+  flex-wrap: wrap;
+  
+}
+.selfFlexSpaceBetween{
+  /* justify-content: center; */
+  
+}
+.selfcard{
+  padding:5px;
+  user-select: none;
+  
+}
+.self-font-9{
+  font-size: 10px;
+}
+.gray{
+  background: #eee;
+}
+.floatInfo{
+  width: 200px;
+  z-index: 9999;
+  font-size: 12px;
+  color:#fff;
+  border-radius: 5px;
+}
+.floatInfo .fli{
+ padding: 5px;
+}
+.selfImg{
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  margin: 0 5px;
+}
+.selfcontainer:hover{
+  transform: scale(1.1);
+}
 
 

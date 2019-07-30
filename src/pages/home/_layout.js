@@ -74,7 +74,8 @@ class Home extends Component {
   }
   componentDidMount() {
     
-    const location = this.props.location.pathname
+    const location = this.props.location.pathname.split('/').filter((l,index)=>index<3).join('/')
+    console.log('location',location)
     const currentMenu =getValueByArray(this.menus,{route:location})
     if(currentMenu.currentMenu){
       console.log(currentMenu)
