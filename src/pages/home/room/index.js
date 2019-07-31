@@ -15,6 +15,12 @@ class Room extends Component {
     isAddShow:false
 
   };
+  rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    },
+    
+  }
   columns =
   [
     { title: '操作', key: 'id', render: (text, record) => (<div>
@@ -82,6 +88,7 @@ class Room extends Component {
       
     }
   };
+  
   handleCancel = e => {
     this.setState({
       visible: false,
@@ -112,7 +119,7 @@ class Room extends Component {
       <div>
         <div><Button onClick={this.showModal}>增加</Button></div>
         <Table
-          
+          rowSelection={this.rowSelection}
           columns={this.columns}
           rowKey={record => record.id}
           dataSource={this.props.data}
@@ -127,7 +134,6 @@ class Room extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           centered
-          
         >
           <Form hideRequiredMark={this.state.isAddShow}>
           <Form.Item label="楼栋id" {...formItemLayout}>

@@ -10,6 +10,15 @@ body {
 a{
   text-decoration: none;
 }
+.ant-layout{
+  flex: 1 !important;
+}
+.ant-layout-footer{
+  padding: 10px !important;
+  background: #fafafa !important;
+  border:1px solid #eee;
+  
+}
 .ant-layout.ant-layout-has-sider > .ant-layout-content{
   /* overflow: hidden; */
 }
@@ -36,7 +45,7 @@ a{
   
 }
 .selfFlexSpaceBetween{
-  /* justify-content: center; */
+  justify-content: space-between;
   
 }
 .selfcard{
