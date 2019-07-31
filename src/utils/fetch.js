@@ -4,6 +4,7 @@ import { message } from 'antd';
 const API_HOST= 'http://192.168.1.125:10000/api'
 
 
+setTimeout(()=>console.dir(window.g_app),1000)
 
 var defaultOptions = {
     headers:{

@@ -23,7 +23,7 @@ function getValueByArray(menus, obj) {
     }
 
   }
-  console.log('tem', tem)
+
   if (!tem) { temi = menus[0].key }
   return { currentMenu: tem, currentSub: temi }
 }
@@ -74,9 +74,7 @@ class Home extends Component {
 
   }
   componentDidMount() {
-
     const location = this.props.location.pathname.split('/').filter((l, index) => index < 3).join('/')
-    console.log('location', location)
     const currentMenu = getValueByArray(this.menus, { route: location })
     if (currentMenu.currentMenu) {
       // console.log(currentMenu)
@@ -98,18 +96,16 @@ class Home extends Component {
     }
 
   }
-  // increment(state, props) {
-  //   return {
-  //     routes: [...state.routes,]
-  //   }
-  // }
+
   menuChange = (item) => {
     let menus = this.menus
     let tem = getValueByArray(menus, { key: item.key })
+    this.setState({
+      selectedKey: [item.key]
+    })
 
 
 
-    // console.log('???',tem)
     let index = this.routes.findIndex(r => r.key === tem.currentMenu.key)
     if (index > -1) return
     this.routes = [...this.routes, tem.currentMenu]
@@ -119,9 +115,10 @@ class Home extends Component {
 
   }
   handelOpenChange = (openkeys) => {
-    console.log('oooo', openkeys)
+
     this.setState({
-      openKeys: openkeys
+      openKeys: openkeys,
+
     })
   }
 
@@ -129,7 +126,7 @@ class Home extends Component {
     // let index = this.routes.findIndex(r => r.key === route.key)
 
     this.routes = this.routes.filter(r => r.key !== route.key)
-    console.log('routes', this.routes)
+
     let length = this.routes.length
     let backRoute = length === 0 ? '/home' : this.routes[length - 1].route
 
@@ -137,10 +134,7 @@ class Home extends Component {
     this.setState({
       routeHistory: this.routes.map(tem => <div className={styles.cheader_item} key={'cheader' + tem.key}><Link to={tem.route}>{tem.value}</Link><Icon onClick={this.handelClose.bind(this, tem)} type="close" /></div>)
     })
-    // this.state.routeHistory = this.routes.map(tem=><div className={styles.cheader_item} key={'cheader'+tem.key}><Link to={tem.route}>{tem.value}</Link><Icon onClick={this.handelClose.bind(this,tem)} type="close" /></div>)
-    // this.props.history.goBack()
 
-    // routeHistory = routes.map(tem=><div className={styles.cheader_item} key={'cheader'+tem.key}><Link to={tem.route}>{tem.value}</Link><Icon onClick={this.handelClose.bind(this,tem)} type="close" /></div>)
 
 
 
@@ -171,7 +165,7 @@ class Home extends Component {
         </Header>
 
         <Layout>
-          <Sider width='140' style={{ height: '100%', overflow: 'auto' }} collapsible collapsed={this.state.collapsed} trigger={null}>
+          <Sider width='140' style={{ overflow: 'auto' }} collapsible collapsed={this.state.collapsed} trigger={null}>
             <div className={styles.triggerWrap}>
               <Icon className={styles.trigger}
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
@@ -187,11 +181,13 @@ class Home extends Component {
             </Menu>
           </Sider>
           <Content className="ant-layout">
-            <div className={styles.cheader}>
-              <div className={styles.cheader_item}><Link to="/home">首页</Link></div>
-              {this.state.routeHistory}
+            <div>
+              <div className={styles.cheader}>
+                <div className={styles.cheader_item}><Link to="/home">首页</Link></div>
+                {this.state.routeHistory}
+              </div>
             </div>
-            <div style={{ padding: '16px 16px 0',flex:'1' }}>
+            <div style={{ padding: '16px 16px 0', flex: '1' }}>
               <div style={{ background: "#fff", height: '100%' }}>
                 {this.props.children}
               </div>

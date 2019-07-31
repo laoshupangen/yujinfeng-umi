@@ -7,6 +7,7 @@ export default {
       user:{},
       loginStatus:false,
       btnStatus:false,
+      dics:[],
     },
     reducers:{
       save(state,{payload:{data:loginStatus}}){
@@ -14,8 +15,11 @@ export default {
       },
       btnStatus(state,{payload:{data:btnStatus}}){
           return {...state,btnStatus}
+      },
+      getDic(state,{payload:{dics}}){
+          return {...state,dics}
       }
-      ,
+      
     
     },
     effects:{
@@ -23,10 +27,16 @@ export default {
             const {data} = yield call(services.Login,{phone,password,account,email})
             if(data.code===0){
                 yield put({type:'save',payload:{data:data.code===0?true:false}})
+                
                 yield put(routerRedux.push('/home'));
             }else{
                 message.error(data.msg)
+                yield put(routerRedux.push('/login'));
             }
+        },
+        *sysDic({call,put,select}){
+           const {data} = yield call(services.sysDic)
+           yield put({type:'getDic',payload:{dics}})
         },
         *LoginQut({call,put}){
            const {data} = yield call(services.LoginQut)

@@ -1,7 +1,8 @@
 const models = {
     namespace:'checkIn',
     state:{
-       current:0
+       current:0,
+       tabledata:[]
     },
     reducers:{
         save(state,{payload:current}){

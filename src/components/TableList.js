@@ -6,11 +6,13 @@ const formItemLayout = {
 function showModal() {
 
 }
-function handleTableChange() {
 
-}
 function TableList(props) {
     const {table,btnFunctions} = props
+    function handleTableChange(record) {
+        console.log(record)
+    }
+    table.data = [{id:'22',departments:'test1',specialities:'test',gender:'test',unused:'test',numbers:'1',qualifications:'test',provenance:'tets'}]
     return (
         <div>
             {btnFunctions&&<div>{btnFunctions.addBtn&&<Button onClick={showModal}>增加</Button>}</div>}

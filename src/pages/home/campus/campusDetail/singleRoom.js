@@ -19,7 +19,7 @@ function singleRoom(props) {
     }
     return (
         <div>
-            <div style={{background:'#f0f2f5',padding:'5px 10px'}}><a onClick={handleBack}>返回至上一页</a></div>
+            <div style={{background:'#f0f2f5',padding:'0 10px 5px 10px',marginTop:'-10px'}}><a onClick={handleBack}>返回至上一页</a></div>
             <Card title="前湖校区" extra={<span style={{padding:'0',}}>操作</span>} headStyle={{height:'40px',lineHeight:'40px'}}>
               <Bar></Bar>       
             </Card>

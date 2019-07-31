@@ -1,26 +1,69 @@
-import { Steps, Affix, Button,Layout ,Pagination } from 'antd'
+import { Steps, Carousel, Button, Layout, Pagination } from 'antd'
 import TableList from '@/components/TableList'
 import { connect } from 'dva'
+
 const { Step } = Steps
-const {Footer,Content} = Layout
+
+const { Footer, Content } = Layout
 
 
 
 function checkIn(props) {
+    let slider = null
     function onChange(c) {
-        console.dir(props)
-        console.log(c)
+
+        console.dir(slider)
+        slider.innerSlider.slickGoTo(c)
         const { dispatch } = props
+
         dispatch({ type: 'checkIn/save', payload: c })
 
     }
-    function nextStep(){
-        const {current,dispatch} = props
-        let tem = current===3?0:current+1
+    function nextStep() {
+        const { current, dispatch } = props
+        let tem = current === 3 ? 0 : current + 1
+        slider.innerSlider.slickGoTo(tem)
         dispatch({ type: 'checkIn/save', payload: tem })
     }
     const table = {
-        columns: [{ title: '院系', dataIndex: 'buildingName', key: 'buildingName', align: 'center' },
+        columns: [
+        
+        { title: '院系', dataIndex: 'departments', key: 'departments', align: 'center' },
+        { title: '专业', dataIndex: 'specialities', key: 'specialities', align: 'center' },
+        { title: '性别', dataIndex: 'gender', key: 'gender', align: 'center' },
+        { title: '未分配数', dataIndex: 'unused', key: 'unused', align: 'center' },
+        { title: '人数', dataIndex: 'numbers', key: 'numbers', align: 'center' },
+        { title: '学历', dataIndex: 'qualifications', key: 'qualifications', align: 'center' },
+        { title: '来源地', dataIndex: 'provenance', key: 'provenance', align: 'center' }],
+        action:'',
+        pagination: props.pagination,
+        loading: false,
+        rowSelection: {
+            onChange: (selectedRowKeys, selectedRows) => {
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+              },
+
+        }
+
+    }
+    const table2 = {
+        columns: [{ title: '院系1', dataIndex: 'buildingName', key: 'buildingName', align: 'center' },
+        { title: '专业', dataIndex: '', key: '', align: 'center' },
+        { title: '性别', dataIndex: '', key: '', align: 'center' },
+        { title: '未分配数', dataIndex: '', key: '', align: 'center' },
+        { title: '人数', dataIndex: '', key: '', align: 'center' },
+        { title: '学历', dataIndex: '', key: '', align: 'center' },
+        { title: '来源地', dataIndex: '', key: '', align: 'center' }],
+        data: [],
+        pagination: props.pagination,
+        loading: false,
+        rowSelection: {
+
+        }
+
+    }
+    const table3 = {
+        columns: [{ title: '院系3', dataIndex: 'buildingName', key: 'buildingName', align: 'center' },
         { title: '专业', dataIndex: '', key: '', align: 'center' },
         { title: '性别', dataIndex: '', key: '', align: 'center' },
         { title: '未分配数', dataIndex: '', key: '', align: 'center' },
@@ -38,7 +81,7 @@ function checkIn(props) {
 
 
     return (
-        <Layout style={{height:'100%'}}>
+        <Layout style={{ height: '100%' }}>
             <div style={{ margin: '5px -10px 0 ', paddingBottom: '15px', background: '#f0f2f5' }}>
                 <Steps current={props.current} onChange={onChange}>
                     <Step description="选择院系或专业" />
@@ -48,16 +91,20 @@ function checkIn(props) {
 
             </div>
 
-            <Content style={{background:'#fff'}}>
+            <Content style={{ background: '#fff' }}>
+                <Carousel dots={false} ref={el => (slider = el)}>
+                    <TableList table={table} ></TableList>
+                    {/* <TableList table={table2} ></TableList> */}
+                    {/* <TableList table={table3} ></TableList> */}
 
-                <TableList table={table} ></TableList>
-                {/* <TableList table={table} ></TableList>
-                    <TableList table={table} ></TableList> */}
+                </Carousel>
+
+               
 
 
             </Content>
             <Footer className='selfFlex selfFlexSpaceBetween'>
-                <Pagination defaultCurrent={1} total={3} pageSize={1}/>  
+                <Pagination defaultCurrent={1} total={3} pageSize={1} />
                 <Button type="primary" onClick={nextStep}>下一步</Button>
             </Footer>
         </Layout>
@@ -65,7 +112,7 @@ function checkIn(props) {
 }
 export default connect((state) => {
     const { checkIn, loading } = state
-    console.log(checkIn)
+    
     return {
         current: checkIn.current,
         loading: loading.models.checkIn

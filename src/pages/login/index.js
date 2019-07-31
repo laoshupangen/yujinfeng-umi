@@ -1,6 +1,6 @@
 import styles from './login.css'
 import { Form, Input, Button, Icon, message, Row, Col } from 'antd'
-import md5 from 'md5'
+
 
 import { connect } from 'dva';
 
@@ -42,7 +42,7 @@ const App = function (props) {
             return
         }
         let k = valid(state.userName);
-        state.password = md5(state.password)
+        
         
         props.dispatch({type:'user/btnStatus',payload:{data:true}})
         switch (k) {

@@ -1,30 +1,45 @@
 import {connect} from 'dva';
 import {Table} from 'antd'
-function Users({campus,loading}){
+function Users(props){
 
     // const listItems = list.data.rows.map(item=><div key={item.id}>{item.name}</div>)
     
     const columns = [
         {
-            title: 'Name',
+            title: '账户',
             dataIndex: 'name',
             key: 'name',
             render: text => <a href="">{text}</a>,
+            align:'center'
           },
           {
-            title: 'Email',
+            title: '姓名',
             dataIndex: 'email',
             key: 'email',
+            align:'center'
           },
           {
-            title: 'UserType',
-            dataIndex: 'userType',
-            key: 'userType',
+            title: '岗位',
+            dataIndex: '',
+            key: '',
+            align:'center'
+          },
+          {
+            title: '隶属机构',
+            dataIndex: '',
+            key: '',
+            align:'center'
+          },
+          {
+            title: '手机号码',
+            dataIndex: '',
+            key: 'phoneNumber',
+            align:'center'
           },
     ]
     return (
        <div>
-           <Table loading={loading} dataSource={campus} columns={columns}>
+           <Table loading={false}  columns={columns} bordered>
 
            </Table>
        </div>
@@ -32,12 +47,10 @@ function Users({campus,loading}){
 }
 
 function mapStateToProps(state){
-    // console.log(state)
-    // const campus= state.users.campus.data.rows
-    const campus = ''
+   
+    
     return {
-        campus,
-        loading:state.loading.models.users
+        
     }
 }
 

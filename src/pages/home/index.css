@@ -33,13 +33,14 @@
   /* background: #fff; */
 }
 .cheader{
-  /* padding: 5px ; */
+  
   background: #fff;
   width:100%;
   border-bottom: 2px solid #2c3e50;
   display: -webkit-box;
   display: -webkit-flex;
   display: flex;
+  align-items: center;
 
 }
 .cheader_item{

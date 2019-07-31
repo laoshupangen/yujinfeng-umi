@@ -11,7 +11,7 @@ a{
   text-decoration: none;
 }
 .ant-layout{
-  flex: 1 !important;
+  /* flex: 1 !important; */
 }
 .ant-layout-footer{
   padding: 10px !important;

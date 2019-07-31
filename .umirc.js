@@ -8,21 +8,24 @@ export default {
     ['umi-plugin-react', {
       antd: true,
       dva: true,
-      dynamicImport: true,
-      title: 'umi',
+      dynamicImport: {webpackChunkName:true},
+      title: '智慧校园',
       dll: false,
+      routes:{
+        exclude: [/models\//, /service/, /components/,],
+      }
       
       
     }],
     ['./bMap.js']
   ],
   
+   
+    
+  
+  // publicPath:'./dist/static/js/',
+  // cssPublicPath:'./dist/static/css/'
+  
 
-  // proxy:{
-  //   "/api":{
-  //     target:'http://jsonplaceholder.typicode.com/',
-  //     changeOrigin:true,
-  //     pathRewrite: { "^/api" : "" }
-  //   }
-  // }
+  
 }
