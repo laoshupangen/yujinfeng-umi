@@ -10,8 +10,15 @@ body {
 a{
   text-decoration: none;
 }
+
+.ant-layout-sider::-webkit-scrollbar {
+ display: none;
+}
 .ant-layout{
   /* flex: 1 !important; */
+}
+.ant-spin-container{
+  height: 100%;
 }
 .ant-layout-footer{
   padding: 10px !important;

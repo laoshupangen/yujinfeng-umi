@@ -1,5 +1,6 @@
 import * as services from '@/service'
 import { routerRedux } from 'dva/router';
+import router from 'umi/router'
 import {message} from 'antd'
 export default {
     namespace:'user',
@@ -8,40 +9,58 @@ export default {
       loginStatus:false,
       btnStatus:false,
       dics:[],
+      token:'',
+      spining:false,
+      menulist:[]
     },
     reducers:{
-      save(state,{payload:{data:loginStatus}}){
-          return {...state,loginStatus}
+      save(state,{payload}){
+          console.log('quit',payload)
+          return {...state,...payload}
       },
-      btnStatus(state,{payload:{data:btnStatus}}){
-          return {...state,btnStatus}
-      },
-      getDic(state,{payload:{dics}}){
-          return {...state,dics}
-      }
+      
       
     
     },
     effects:{
-        *Login({payload:{phone,password,email,account}},{call,put}){
-            const {data} = yield call(services.Login,{phone,password,account,email})
-            if(data.code===0){
-                yield put({type:'save',payload:{data:data.code===0?true:false}})
+        *Login({payload},{call,put}){
+            yield put({type:'save',payload:{btnStatus:true}})
+            const {data} = yield call(services.Login,payload)
+            if(data){
+                yield call(services.Info)
+                const res =yield call(services.Menu)
+                localStorage.setItem('menulist',JSON.stringify(res.data))
+                yield put({type:'save',payload:{loginStatus:true}})
+                localStorage.setItem('Authorization',data)
+                localStorage.setItem('selfLogin',true)
+                localStorage.setItem('token',data)
+                yield put({type:'save',payload:{btnStatus:false}})
+                // routerRedux.push('/home')
+                setTimeout(()=>{
+                    router.push('/home')
+                },100)
                 
-                yield put(routerRedux.push('/home'));
             }else{
                 message.error(data.msg)
                 yield put(routerRedux.push('/login'));
             }
         },
+        *menu({payload},{call,put}){
+            const res =yield call(services.Menu)
+            
+            
+            yield put({type:'save',payload:{menulist:res.data}})
+        },
         *sysDic({call,put,select}){
            const {data} = yield call(services.sysDic)
            yield put({type:'getDic',payload:{dics}})
         },
-        *LoginQut({call,put}){
-           const {data} = yield call(services.LoginQut)
-           if(data.code===0){
-               yield put({type:'save',payload:{data:false}})
+        *LoginQut({payload},{call,put}){
+           const res = yield call(services.LoginQut,payload)
+          
+           if(!res){
+              localStorage.clear()
+              yield put(routerRedux.push('/login')) 
            }else{
                message.error(data.msg)
            }
@@ -49,13 +68,11 @@ export default {
     },
     subscriptions:{
         setup({dispatch,history}){
-            // console.log('test订阅0',dispatch)            
             return history.listen(({pathname,query})=>{
-                // console.log('test订阅',pathname)             
-                // dispatch({type:'Login',payload:query})                
-                // if(pathname === '/users/users'){
-                //     console.log(pathname)
-                // }
+                if(pathname === '/home'){
+                    dispatch({type:'menu',payload:{}})
+                    
+                }
             })
         }
     }

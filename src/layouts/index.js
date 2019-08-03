@@ -1,20 +1,18 @@
 import styles from './index.css';
-
+import {Spin} from 'antd'
 
 // 判断当前路由是否为合法
 
 
 function BasicLayout(props) {  
   // matchRoutes(props.location.pathname,props.route.routes)?null:location.pathname = '404'
-  // console.log(props)
+  console.log('.-.',window.g_app._models)
+  const spining = window.g_app._models[2].state.spining
   return (
-    <div className={styles.normal}>     
-      {        
-        props.children
-        
-      }
-      
-    </div>
+    
+     
+       <Spin wrapperClassName={styles.normal} tip="Loading..." spinning={spining}>{props.children}</Spin>       
+    
   );
 }
 

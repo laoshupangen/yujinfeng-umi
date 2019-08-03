@@ -12,18 +12,39 @@ function checkIn(props) {
     let slider = null
     function onChange(c) {
 
-        console.dir(slider)
+        console.dir(c)
         slider.innerSlider.slickGoTo(c)
         const { dispatch } = props
 
         dispatch({ type: 'checkIn/save', payload: c })
+        if(c===2){
+
+            dispatch({ type: 'checkIn/reserve', payload: true})
+        }
+        if(c===0){
+            dispatch({ type: 'checkIn/reserve', payload:false })
+        }
 
     }
     function nextStep() {
         const { current, dispatch } = props
-        let tem = current === 3 ? 0 : current + 1
+        let tem = current + 1
+        console.log('next',current)
         slider.innerSlider.slickGoTo(tem)
         dispatch({ type: 'checkIn/save', payload: tem })
+        if(tem===2){
+
+            dispatch({ type: 'checkIn/reserve', payload: true })
+        }
+    }
+    function preStep() {
+        const { current, dispatch } = props
+        let tem = current - 1
+        slider.innerSlider.slickGoTo(tem)
+        dispatch({ type: 'checkIn/save', payload: tem })
+        if(tem===0){
+            dispatch({ type: 'checkIn/reserve', payload: false })
+        }
     }
     const table = {
         columns: [
@@ -93,9 +114,9 @@ function checkIn(props) {
 
             <Content style={{ background: '#fff' }}>
                 <Carousel dots={false} ref={el => (slider = el)}>
-                    <TableList table={table} ></TableList>
-                    {/* <TableList table={table2} ></TableList> */}
-                    {/* <TableList table={table3} ></TableList> */}
+                    <TableList table={table} search={true} btnFunctions={{refreshBtn:true}}></TableList>
+                    <TableList table={table2} search={true} btnFunctions={{refreshBtn:true}}></TableList>
+                    <TableList table={table3} search={true} btnFunctions={{refreshBtn:true,confirmBtn:true}}></TableList>
 
                 </Carousel>
 
@@ -105,7 +126,9 @@ function checkIn(props) {
             </Content>
             <Footer className='selfFlex selfFlexSpaceBetween'>
                 <Pagination defaultCurrent={1} total={3} pageSize={1} />
-                <Button type="primary" onClick={nextStep}>下一步</Button>
+               {console.log(props.reserve)}
+                {!props.reserve&&<Button type="primary" onClick={nextStep}>下一步</Button>}
+                {props.reserve&&<Button type="primary" onClick={preStep}>上一步</Button>}
             </Footer>
         </Layout>
     )
@@ -115,6 +138,7 @@ export default connect((state) => {
     
     return {
         current: checkIn.current,
-        loading: loading.models.checkIn
+        loading: loading.models.checkIn,
+        reserve:checkIn.reserve
     }
 })(checkIn)

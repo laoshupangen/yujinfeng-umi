@@ -1,19 +1,19 @@
 import fetch from 'dva/fetch';
 import router from 'umi/router'
 import { message } from 'antd';
-const API_HOST= 'http://192.168.1.125:10000/api'
+const API_HOST= 'http://192.168.1.103/api'
 
 
-setTimeout(()=>console.dir(window.g_app),1000)
-
+// setTimeout(()=>console.dir(window.g_app),1000)
+// 自定义请求头 Authorization
 var defaultOptions = {
     headers:{
         'Accept': 'application/json',
         'Content-Type':'application/json;charset=utf-8',
-        
+        'Authorization':localStorage.getItem('Authorization')
     },
     // credentials: 'include',
-    mode:'no-cors'  
+    mode:'cors'  
 }
 const JsonToString = function(obj){
    let str = ''
@@ -45,8 +45,9 @@ const $ = {
 }
 
 
-const checkStatus = function(res,url,options){  
-    // console.log('check',res)
+const checkStatus = function(res){  
+    // console.log(window.location)
+    // console.log('check',res.headers)
     if(res.status>=200&&res.status<300){
         if(res.status === 204){
             return 
@@ -64,7 +65,8 @@ const checkStatus = function(res,url,options){
  async function request(url,options){
     try{
         const res = await fetch(url,options);
-        // console.log('res',res)
+        console.log('res',res)
+
         checkStatus(res)
         const data = await res.json()
         // console.log('data',data)

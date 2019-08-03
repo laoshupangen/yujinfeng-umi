@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Form, Input ,InputNumber,Popconfirm} from 'antd'
+import { Table, Button, Modal, Form, Input ,InputNumber,Popconfirm,Tree } from 'antd'
 import { connect } from 'dva'
 import { Component} from 'react';
 
@@ -117,6 +117,10 @@ class Room extends Component {
     const { getFieldDecorator} = this.props.form
     return (
       <div>
+        <div className='selfLeft'>
+          <Tree></Tree>
+        </div>
+        <div className='selfRigth'></div>
         <div><Button onClick={this.showModal}>增加</Button></div>
         <Table
           rowSelection={this.rowSelection}

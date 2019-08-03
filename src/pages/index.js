@@ -4,8 +4,9 @@ function App(props){
     console.log('pages/index',props)
     return (
 
-        //  !props.isLogin&&<Redirect to="/login" />
-        <Redirect to="/login" />
+        
+        // <Redirect to="/login" />
+        <div></div>
          
         
     )

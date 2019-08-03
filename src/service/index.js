@@ -1,16 +1,16 @@
 import $ from '@/utils/fetch'
 import md5 from 'md5'
-export const Login = ({userName,phone,email,account,password=md5(password)})=>{
-    return $.post('/My/Login',{userName,phone,email,account,password})
+export const Login = ({userName,phone,email,account,password})=>{
+    return $.post('/Login',{userName,phone,email,account,password:md5(password)})
 }
 export const LoginQut = ()=>{
-    return $.post('/My/Logout')
+    return $.post('/Logout')
 }
 export const Menu = ()=>{
-    return $.post('/My/Menu')
+    return $.post('/MyMenu')
 }
 export const Info = ()=>{
-    return $.post('/My/Info')
+    return $.post('/MyInfo')
 }
 
 // Admin
