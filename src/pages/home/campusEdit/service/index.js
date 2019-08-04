@@ -17,8 +17,3 @@ export const editCampus = ({id,name,number,address})=>{
 export const deleteCampus = (id)=>{
     return $.get('/Campus/Delete',{params:{id}})
 }
-
-// 获取楼栋
-export const getBuildingList = ()=>{
-    return $.post('/Building/List')
-}

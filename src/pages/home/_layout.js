@@ -3,7 +3,7 @@ import styles from './index.css';
 import Link from 'umi/link';
 import router from 'umi/router';
 
-import { Layout, Menu, Icon, Breadcrumb, Affix, Avatar } from 'antd';
+import { Layout, Menu, Icon, Breadcrumb, Affix, Avatar, Spin } from 'antd';
 import { Component } from 'react';
 
 
@@ -83,7 +83,7 @@ class Home extends Component {
   loginOut = () => {
     console.log('loginout', this.props)
     const { dispatch } = window.g_app._store
-    // dispatch({type:'user/save',payload:{spining:true}})
+    
     dispatch({ type: 'user/LoginQut', payload: {} })
   }
   componentDidMount() {
@@ -112,65 +112,71 @@ class Home extends Component {
 
   }
   render() {
-    const isselfLogin = localStorage.getItem('selfLogin')
-    if (isselfLogin) {
+    const Authorization = sessionStorage.getItem('Authorization')
+    if (Authorization) {
       const menulist = JSON.parse(localStorage.getItem('menulist'))
-      const sMenu = menulist.map(menu => {
-        return <SubMenu key={menu.id} title={<div><Icon type='user' /><span>{menu.name}</span></div>} >
-          {menu.childNodes.map((child) => <Menu.Item key={child.id}>{child.name}</Menu.Item>)}
-        </SubMenu>
-      });
+      let sMenu = <Menu.Item key='smenu' disabled><Icon type='warning' />没有数据</Menu.Item>
+      
+      if (menulist instanceof Array) {
+        sMenu = menulist.map(menu => {
+          return <SubMenu key={menu.id} title={<div><Icon type='user' /><span>{menu.name}</span></div>} >
+            {menu.childNodes.map((child) => <Menu.Item key={child.id}>{child.name}</Menu.Item>)}
+          </SubMenu>
+        });
+      }
+
 
       return (
         <Layout style={{ height: '100%' }}>
-          <Header style={{
-            padding: '0 25px',
-            background: 'rgb(6,181,169)'
-          }}>
-            <span className={styles.headerLeft}>宿舍管理</span>
-            <div className={styles.headerRight}>
-              <div><Avatar icon="user" /></div>
-              <div>你好,管理员!</div>
-              <div>|</div>
-              <div onClick={this.loginOut}>退出</div>
-            </div>
-          </Header>
+          {/* <Spin wrapperClassName="" spinning={false}> */}
+            <Header style={{
+              padding: '0 25px',
+              background: 'rgb(6,181,169)'
+            }}>
+              <span className={styles.headerLeft}>宿舍管理</span>
+              <div className={styles.headerRight}>
+                <div><Avatar icon="user" /></div>
+                <div>你好,管理员!</div>
+                <div>|</div>
+                <div onClick={this.loginOut}>退出</div>
+              </div>
+            </Header>
 
-          <Layout>
-            <Sider style={{ overflow: 'auto' }} collapsible collapsed={this.state.collapsed} trigger={null}>
-              <div className={styles.triggerWrap}>
-                <Icon className={styles.trigger}
-                  type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                  onClick={this.toggle} />
+            <Layout>
+              <Sider style={{ overflow: 'auto' }} collapsible collapsed={this.state.collapsed} trigger={null}>
+                <div className={styles.triggerWrap}>
+                  <Icon className={styles.trigger}
+                    type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                    onClick={this.toggle} />
 
-              </div>
-              <Menu theme="dark" style={{ borderRight: 'none' }} inlineIndent={24} onOpenChange={this.handelOpenChange}
-                defaultOpenKeys={this.state.defaultOpenKeys}
-                openKeys={this.state.openKeys}
-                selectedKeys={this.state.selectedKey}
-                mode="inline" onSelect={this.menuChange}>
-                {sMenu}
-              </Menu>
-            </Sider>
-            <Content className="ant-layout">
-              <div>
-                <div className={styles.cheader}>
-                  <div className={styles.cheader_item}><Link to="/home">首页</Link></div>
-                  {this.state.routeHistory}
                 </div>
-              </div>
-              <div style={{ padding: '16px 16px 0', flex: '1' }}>
-                <div style={{ background: "#fff", height: '100%' }}>
-                  {this.props.children}
+                <Menu theme="dark" style={{ borderRight: 'none' }} inlineIndent={24} onOpenChange={this.handelOpenChange}
+                  defaultOpenKeys={this.state.defaultOpenKeys}
+                  openKeys={this.state.openKeys}
+                  selectedKeys={this.state.selectedKey}
+                  mode="inline" onSelect={this.menuChange}>
+                  {sMenu}
+                </Menu>
+              </Sider>
+              <Content className="ant-layout">
+                <div>
+                  <div className={styles.cheader}>
+                    <div className={styles.cheader_item}><Link to="/home">首页</Link></div>
+                    {this.state.routeHistory}
+                  </div>
                 </div>
-              </div>
-            </Content>
-          </Layout>
+                <div style={{ padding: '16px 16px 0', flex: '1' }}>
+                  <div style={{ background: "#fff", height: '100%' }}>
+                    {this.props.children}
+                  </div>
+                </div>
+              </Content>
+            </Layout>
+          {/* </Spin> */}
         </Layout>
-
       )
-    }else{
-      return (<div>
+    } else {
+      return (<div style={{height:'100%'}}>
         {this.props.children}
       </div>)
     }

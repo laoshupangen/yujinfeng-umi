@@ -1,7 +1,7 @@
 import fetch from 'dva/fetch';
 import router from 'umi/router'
 import { message } from 'antd';
-const API_HOST= 'http://192.168.1.103/api'
+const API_HOST= 'http://192.168.1.125:10000/api'
 
 
 // setTimeout(()=>console.dir(window.g_app),1000)
@@ -10,7 +10,7 @@ var defaultOptions = {
     headers:{
         'Accept': 'application/json',
         'Content-Type':'application/json;charset=utf-8',
-        'Authorization':localStorage.getItem('Authorization')
+        'Authorization':sessionStorage.getItem('Authorization')
     },
     // credentials: 'include',
     mode:'cors'  
@@ -46,30 +46,58 @@ const $ = {
 
 
 const checkStatus = function(res){  
-    // console.log(window.location)
-    // console.log('check',res.headers)
+    
     if(res.status>=200&&res.status<300){
-        if(res.status === 204){
-            return 
+        if(res.headers.has('Authorization')){
+            let authorization = res.headers.get('Authorization')
+            
+            sessionStorage.setItem('Authorization',authorization)
         }
-        
+
+
+
+        if(res.status === 204){
+           return 
+        }
         return res;
     }
+    if(res.status==='303'){
+        if(sessionStorage.getItem('Authorization')){
+            message.error('请重新登录')
+            router.push('/login')
+        }else{
+            // message.error('未')
+            window.location.href = '/Login'
+        }
+        return false
+    }
+    if(res.status==='401'){
+       message.error('角色无相应功能权限,请联系管理员设置')
+       return false
+    }
     
-
-    const error = new Error(res.statusText);    
-    error.res = res;
-    throw error;
+    // const error = new Error(res.statusText);    
+    
+    // error.res = res;
+    // throw error;
 }
 //约定接口返回结构{code:,msg:,data:}code=0时,代表接口无异常，其他均为异常
  async function request(url,options){
     try{
         const res = await fetch(url,options);
-        console.log('res',res)
-
+       
         checkStatus(res)
+        if(res.statusText==='No Content'){
+            return 
+         }
+        
+        // if(!checkStatus(res)){
+        //     return 
+        // }
+        // console.log('res',res)
+       
         const data = await res.json()
-        // console.log('data',data)
+        console.log('data',data)
         
         const req = {
             data
@@ -79,7 +107,7 @@ const checkStatus = function(res){
     }catch(e){
         // console.table(e)
         // console.log(e.message)
-        // message.error('ERR_CONNECTION_TIMED_OUT')
+        message.error(e.message)
     }
     
 }

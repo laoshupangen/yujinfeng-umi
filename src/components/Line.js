@@ -5,12 +5,23 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 class Line extends React.Component {
-  state = {};
+  constructor(props){
+    super(props)
+  }
+  
   componentDidMount() {
     // 基于准备好的dom，初始化echarts实例
     //this.props.data
-    const seriesData = {'空床位':[120, 132, 101, 134, 90, 230, 210],'维修中':[220, 182, 191, 234, 290, 330, 310]}
-    const xAxisData = ['M1栋','M2栋','M3栋','M4栋','M5栋','M6栋','M7栋']
+    console.log(this.props)
+    const xAxisData = this.props.data.map(d=>d.title)   
+    console.log('x',xAxisData)
+    // const seriesData = {
+    //     '空床位':this.props.map(),
+    //     '维修中':this.props.map(),
+    // }
+
+    const seriesData = {'空床位':[10, 20, 15, 18, 22, 29, 35],'维修中':[14, 23, 28, 32, 34, 24, 26]}
+    // const xAxisData = ['M1栋','M2栋','M3栋','M4栋','M5栋','M6栋','M7栋']
     const myChart = echarts.init(document.getElementById('main'));
     window.onresize = function(){
         myChart.resize()
@@ -21,7 +32,8 @@ class Line extends React.Component {
             trigger: 'axis'
         },
         legend: {
-            data:['空床位','维修中']
+            data:['空床位','维修中'],
+            right:'0'
         },
         grid: {
             left: '3%',
@@ -37,21 +49,23 @@ class Line extends React.Component {
             data: xAxisData
         },
         yAxis: {
-            type: 'value'
+            type: 'value',
+            
         },
         series: [
             {
                 name:'空床位',
                 type:'line',
-                stack: '总量',
+                // stack: '总量',
                 data:seriesData['空床位'],
                 areaStyle:{}
             },
             {
                 name:'维修中',
                 type:'line',
-                stack: '总量',
-                data:seriesData['维修中']
+                // stack: '总量',
+                data:seriesData['维修中'],
+                areaStyle:{}
             },
            
         ]
@@ -61,7 +75,7 @@ class Line extends React.Component {
   }
   render() {
     return (
-      <div id="main" style={{ width: '100%', height: 400 }} />
+      <div id="main" style={{ width: '100%', height: 300 }} />
     );
   }
 }

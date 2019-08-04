@@ -1,6 +1,6 @@
 import $ from '@/utils/fetch'
 // 添加房间
-export const addRoom = ({buildingId,number,floor,title,bedCount,allowGender=0})=>{
+export const addRoom = ({buildingId,number,floor,title,bedCount,allowGender})=>{
     return $.post('/Room/Add',{buildingId,number,floor,title,bedCount,allowGender})
 }
 // 编辑房间信息
@@ -38,3 +38,4 @@ export const changeRoom = ({studentId,originRoomId,targetRoomId})=>{
 export const checkOutRoon = ({checkInId,studentId,roomId})=>{
     return $.post('/Room/CheckOut',{checkInId,studentId,roomId})
 } 
+

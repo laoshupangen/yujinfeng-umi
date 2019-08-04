@@ -1,28 +1,33 @@
 import * as service from '../service'
 const models = {
-    namespace:'building',
+    namespace:'buildings',
     state:{
-       campusdata:[]
+       buildings:[]
     },
     reducers:{
-       save(state,{payload:campusdata}){
-           return {...state,campusdata}
+       save(state,{payload}){
+           return {...state,...payload}
        }
     },
     effects:{
-      *fetch({payload:{sortName,sortOrder}},{call,put}){
-        const { data } = yield call(service.getBuildingPage, { pageSize: 20, pageIndex: 1, sortName, sortOrder })
+      *fetch({payload:{}},{call,put}){
+        const { data } = yield call(service.getBuildingList, { })
         console.log(data)
-        yield put({type:'save',payload:{data}})
+        yield put({type:'save',payload:{buildings:data}})
+      },
+      *delete({payload},{call}){
+        yield call(service.deleteBuilding)
+
+      },
+      *add({payload},{call}){
+        yield call(service.addBuilding,payload)
       }
     },
     subscriptions:{
         setup({dispatch,history}){
         return history.listen(({ pathname, query }) => {
-          dispatch({ type: 'fetch', payload: query })
-              if (pathname === '/home/building') {
-                console.log('builds', pathname)
-                    
+              if (pathname === '/home/buildings') {
+                  dispatch({ type: 'fetch'})
                 }
             })
         }

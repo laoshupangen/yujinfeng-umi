@@ -1,33 +1,38 @@
 import * as service from '../service'
-// import { getCampusPage, addCampus, editCampus, deleteCampus } from './service'
+
 const models = {
     namespace:'campus',
     state:{
-       campusdata:[]
+       nodata:[],
+       campus:[],
+       buildings:[]
     },
     reducers:{
-       save(state,{payload:campusdata}){
-           return {...state,campusdata}
+       save(state,{payload}){
+           return {...state,...payload}
        }
     },
     effects:{
-      *get({payload:{keywords}},{call,put}){
-        const { data } = yield call(service.getCampusPage,{keywords})       
-        // let data = m.data.data 
-        console.log(data)          
-        yield put({type:'save',payload:data})
-      },
-      *add({payload:{name,number,address}},{call,put}){ 
-          const {data} = yield call(service.addCampus,{name,number,address}) 
-          
-      }
+        *getBuildings({payload},{call,put}){
+            let buildinglist = yield call(service.getBuildingList)
+            yield put({type:'save',payload:{buildings:buildinglist.data}})
+        },
+        *getCampus({payload},{call,put}){
+            let campuslist = yield call(service.getCampusList,payload)
+            yield put({type:'save',payload:{campus:campuslist.data}})
+        }
+      
     },
     subscriptions:{
         setup({dispatch,history}){
             return history.listen(({pathname,query})=>{
-                if(pathname === '/home/campus'){
+                if(pathname === '/home/campus/campusDetail'){
                     // console.log('query',query)
-                    // dispatch({type:'get',payload:{keywords:''}})
+                    dispatch({type:'getBuildings',payload:{}})
+                }
+                if(pathname === '/home/campus'){
+                    console.log('abc')
+                    dispatch({type:'getCampus',payload:{keyword:''}})
                 }
             })
         }

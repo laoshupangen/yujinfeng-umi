@@ -28,16 +28,17 @@ class buildings  extends Component {
     <Popconfirm title="确认删除?" onConfirm={() => this.handleDelete(record)}>
     <a href="javascript:">删除</a></Popconfirm></div>), align: 'center' },
     // { title:'id', dataIndex: 'id', key: 'id',colSpan:1},  
-    { title: '所属楼栋', dataIndex: 'buildingName', key: 'buildingName', align: 'center', sorter: true }, 
-    { title: 'title?', dataIndex: 'title', key: 'title', align: 'center' ,editable: true,},
-    { title: 'number?', dataIndex: 'number', key: 'number', align: 'center' ,editable: true},
-    { title: '层数', dataIndex: 'floor', key: 'floor', align: 'center' },
-    { title: '空余床位数', dataIndex: 'freeBeds', key: 'freeBeds', align: 'center' },
-    { title: '总床位', dataIndex: 'bedCount', key: 'bedCount', align: 'center' },
-    { title: '入住人员性别', dataIndex: 'allowGender', key: 'allowGender', align: 'center' ,render:(text)=>{
+    { title: '楼栋名称', dataIndex: 'title', key: 'title', align: 'center', sorter: true }, 
+    { title: '楼栋编号', dataIndex: 'number', key: 'number', align: 'center' ,editable: true,},
+    
+    { title: '所在校区', dataIndex: 'campusName', key: 'campusName', align: 'center' },
+    { title: '楼层数', dataIndex: 'floors', key: 'floors', align: 'center' },
+    { title: '楼栋类型', dataIndex: 'allowGender', key: 'allowGender', align: 'center' ,render:(text)=>{
       text = text==='0'?'男生':(text==='allowGender.unlimited'?'未定义':'女生')
       return text
-    }}
+    }},
+    { title: '管理员', dataIndex: '', key: '', align: 'center' },
+    { title: '容纳人数', dataIndex: 'roomCount', key: 'roomCount', align: 'center' },
   
   ]
   componentWillMount (){
@@ -52,11 +53,9 @@ class buildings  extends Component {
   }
   handleDelete = record => {
     const {dataSource,dispatch} = this.props;
-    console.log(this.props)
-    
-    //  dispatch({type:'room/delete',payload:{id:record.id}})
-    //  dispatch({type:'room/get',payload:{pageIndex:this.props.pagination.current,pageSize:20}})
-    // this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+     dispatch({type:'room/delete',payload:{id:record.id}})
+     dispatch({type:'list/getBuildings'})
+     
   };
   showModal = (record) => {
     this.setState({
@@ -67,7 +66,6 @@ class buildings  extends Component {
     });
     
     if(record.id){
-      
       this.setState({
         isAddShow:true
       })
@@ -104,9 +102,9 @@ class buildings  extends Component {
       // dispatch({type:'room/update',payload:forms})
     }
     // dispatch({type:'room/get',payload:{pageIndex:this.props.pagination.current,pageSize:20}}) 
-    // this.setState({
-    //   visible: false,
-    // });
+    this.setState({
+      visible: false,
+    });
   };
   handleTableChange = (pagination, filters, sorter) => {
     const {dispatch} = this.props
@@ -117,75 +115,92 @@ class buildings  extends Component {
     const { getFieldDecorator} = this.props.form
     return (
       <div>
-        <div><Button onClick={this.showModal}>增加</Button></div>
+        <div style={{padding:'5px 10px'}}><Button onClick={this.showModal} type="primary">增加</Button></div>
         <Table
-          rowSelection={this.rowSelection}
           columns={this.columns}
           rowKey={record => record.id}
           dataSource={this.props.data}
-          pagination={this.props.pagination}
+          pagination={false}
           loading={this.props.loading}
-          onChange={this.handleTableChange}
           bordered
         />
         <Modal
-          title="新增房间"
+          title="新增楼栋"
           visible={this.state.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           centered
         >
           <Form hideRequiredMark={this.state.isAddShow}>
-          <Form.Item label="楼栋id" {...formItemLayout}>
-            {getFieldDecorator('buildingId', {
+          <Form.Item label="楼栋编号" {...formItemLayout}>
+            {getFieldDecorator('number', {
               rules: [
                 {
                   
                   required: true,
-                  message: '输入房间编号',
+                  message: '楼栋编号',
                 },
               ],
             })(<Input  disabled/>)}
           </Form.Item>
-          <Form.Item label="寝室号number" {...formItemLayout}>
-            {getFieldDecorator('number', {
-              rules: [
-                {
-                  required: true,
-                  message: '输入寝室号',
-                },
-              ],
-            })(<Input placeholder="输入寝室号" />)}
-          </Form.Item>
-          <Form.Item label="房间楼栋" {...formItemLayout}>
-            {getFieldDecorator('floor', {
-              rules: [
-                {
-                  required: true,
-                  message: '输入房间楼栋',
-                },
-              ],
-            })(<InputNumber/>)}
-          </Form.Item>
-          <Form.Item label="房间tilte?" {...formItemLayout}>
+          <Form.Item label="楼栋名称" {...formItemLayout}>
             {getFieldDecorator('title', {
               rules: [
                 {
                   required: true,
-                  message: '房间title',
+                  message: '楼栋名称',
                 },
               ],
-            })(<Input placeholder="填写房间tilte" />)}
+            })(<Input placeholder="楼栋名称" />)}
           </Form.Item>
-          <Form.Item label="床铺数目" {...formItemLayout}>
-            {getFieldDecorator('bedCount', {
+          <Form.Item label="所在区域" {...formItemLayout}>
+            {getFieldDecorator('campusId', {
               rules: [
                 {
                   required: true,
-                  message: '床铺数目',
+                  message: '所在区域',
                 },
               ],
-            })(<InputNumber min={1} max={10} />)}
+            })(<Input placeholder="所在区域" />)}
+          </Form.Item>
+          <Form.Item label="楼栋类型" {...formItemLayout}>
+            {getFieldDecorator('allowGender', {
+              rules: [
+                {
+                  required: true,
+                  message: '楼栋类型',
+                },
+              ],
+            })(<Input placeholder="楼栋类型" />)}
+          </Form.Item>
+          <Form.Item label="楼层数" {...formItemLayout}>
+            {getFieldDecorator('floors', {
+              rules: [
+                {
+                  required: true,
+                  message: '楼层数',
+                },
+              ],
+            })(<Input placeholder="楼栋类型" />)}
+          </Form.Item>
+          <Form.Item label="宿舍管理员" {...formItemLayout}>
+            {getFieldDecorator('gliyuan', {
+              rules: [
+                {
+                  required: true,
+                  message: '宿舍管理员',
+                },
+              ],
+            })(<Input placeholder="宿舍管理员" />)}
+          </Form.Item>
+          <Form.Item label="自动生成房间" {...formItemLayout}>
+            {getFieldDecorator('autoRoom  ', {
+              rules: [
+                {
+                  required: false,
+                },
+              ],
+            })(<Input placeholder="自动生成" />)}
           </Form.Item>
           </Form>
         </Modal>
@@ -196,11 +211,11 @@ class buildings  extends Component {
 }
 buildings = Form.create({})(buildings)
 export default connect(state => {
-  console.log('state.Room',state)
+  console.log('state.Build',state)
   return {
-    // btnList: ['增加', '删除'],
-    // loading:state.loading.models.room,
-    // data:state.room.rooms.list,
+    
+    loading:state.loading.models.buildings,
+    data:state.list.buildings,
     // pagination:{
     //   current:state.room.pagination.current,
     //   pageSize:state.room.pagination.pageSize,

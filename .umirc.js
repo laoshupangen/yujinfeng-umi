@@ -2,7 +2,11 @@
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
-  
+  history: 'hash',
+  // exportStatic: {
+  //   htmlSuffix: true,
+  //   dynamicRoot: true,
+  // },
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     ['umi-plugin-react', {

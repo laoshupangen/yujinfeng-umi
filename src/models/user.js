@@ -15,7 +15,6 @@ export default {
     },
     reducers:{
       save(state,{payload}){
-          console.log('quit',payload)
           return {...state,...payload}
       },
       
@@ -25,25 +24,23 @@ export default {
     effects:{
         *Login({payload},{call,put}){
             yield put({type:'save',payload:{btnStatus:true}})
-            const {data} = yield call(services.Login,payload)
-            if(data){
+            try{
+                yield call(services.Login,payload)
                 yield call(services.Info)
                 const res =yield call(services.Menu)
                 localStorage.setItem('menulist',JSON.stringify(res.data))
                 yield put({type:'save',payload:{loginStatus:true}})
-                localStorage.setItem('Authorization',data)
-                localStorage.setItem('selfLogin',true)
-                localStorage.setItem('token',data)
                 yield put({type:'save',payload:{btnStatus:false}})
-                // routerRedux.push('/home')
-                setTimeout(()=>{
-                    router.push('/home')
-                },100)
-                
-            }else{
-                message.error(data.msg)
-                yield put(routerRedux.push('/login'));
+                yield put(routerRedux.push('/home'))
+
+            }catch(err){
+                message.error(err)
             }
+            
+            // localStorage.setItem('selfLogin',true)
+           
+           
+            
         },
         *menu({payload},{call,put}){
             const res =yield call(services.Menu)
@@ -59,7 +56,7 @@ export default {
            const res = yield call(services.LoginQut,payload)
           
            if(!res){
-              localStorage.clear()
+              sessionStorage.clear()
               yield put(routerRedux.push('/login')) 
            }else{
                message.error(data.msg)
@@ -68,6 +65,7 @@ export default {
     },
     subscriptions:{
         setup({dispatch,history}){
+            // dispatch({type:'buildings/fetch'})
             return history.listen(({pathname,query})=>{
                 if(pathname === '/home'){
                     dispatch({type:'menu',payload:{}})
