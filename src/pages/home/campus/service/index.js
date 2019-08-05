@@ -15,10 +15,14 @@ export const editCampus = ({id,name,number,address})=>{
 }
 // 删除某个校区信息
 export const deleteCampus = (id)=>{
-    return $.get('/Campus/Delete',{params:{id}})
+    return $.post('/Campus/Delete',{id})
 }
 
 // 获取楼栋
 export const getBuildingList = ()=>{
     return $.post('/Building/List')
+}
+
+export const getBuild = (id)=>{
+    return $.get('/Campus/buildDetail',{id})
 }

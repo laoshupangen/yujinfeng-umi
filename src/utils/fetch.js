@@ -12,7 +12,7 @@ var defaultOptions = {
         'Content-Type':'application/json;charset=utf-8',
         'Authorization':sessionStorage.getItem('Authorization')
     },
-    // credentials: 'include',
+    credentials: 'include',
     mode:'cors'  
 }
 const JsonToString = function(obj){
@@ -76,10 +76,10 @@ const checkStatus = function(res){
        return false
     }
     
-    // const error = new Error(res.statusText);    
+    const error = new Error(res.statusText);    
     
-    // error.res = res;
-    // throw error;
+    error.res = res;
+    throw error;
 }
 //约定接口返回结构{code:,msg:,data:}code=0时,代表接口无异常，其他均为异常
  async function request(url,options){
@@ -87,7 +87,7 @@ const checkStatus = function(res){
         const res = await fetch(url,options);
        
         checkStatus(res)
-        if(res.statusText==='No Content'){
+        if(res.status===204){
             return 
          }
         
@@ -97,7 +97,7 @@ const checkStatus = function(res){
         // console.log('res',res)
        
         const data = await res.json()
-        console.log('data',data)
+        // console.log('data',data)
         
         const req = {
             data

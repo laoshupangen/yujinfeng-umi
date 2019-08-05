@@ -1,4 +1,4 @@
-import { Table, Input, InputNumber, Popconfirm, Form } from 'antd';
+import { Table, Input, InputNumber, Popconfirm, Form ,message} from 'antd';
 
 const data = [];
 
@@ -107,12 +107,14 @@ class EditableTable extends React.Component {
       if (error) {
         return;
       }
-      this.props.save(row,key)
-      // new Promise((resolve, reject) => {
+      new Promise((resolve, reject) => {
+        this.props.save(row,key)
 
-      // }).then((data) => {
-      //     console.log(`after a long time, ${data} returns`);
-      //   });
+      }).then((data) => {
+          console.log(`after a long time, ${data} returns`);
+        }).catch(err=>{
+          message.info(`${err}`)
+        });
       this.setState({ editingKey: '' });
     });
   }

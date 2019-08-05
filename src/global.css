@@ -57,6 +57,18 @@ a{
   flex-wrap: wrap;
   
 }
+.gridContentWrap{
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex !important;
+  align-items: center;
+  flex-direction: column;
+  
+  justify-content: center;
+
+}
 .selfFlexSpaceBetween{
   justify-content: space-between;
   
@@ -92,6 +104,27 @@ a{
 }
 .selfcontainer:hover{
   transform: scale(1.1);
+}
+.selfcircle{
+  display:inline-block;
+  border: 1px solid #ccc;
+  padding: 3px;
+  border-radius: 50%;
+  padding: 2px;
+  background: #fff;
+}
+.selfcircleWrap{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.selfcircle img{
+  margin: auto;
+  display:inline-block;
+  
 }
 
 

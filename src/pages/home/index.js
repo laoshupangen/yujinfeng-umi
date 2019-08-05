@@ -12,6 +12,7 @@ function home (props) {
     function save(row,key) {
         const {dispatch} = props
         console.log('tt',row,key)
+        // console.log({id:key,...row})
         dispatch({type:'list/updateResource',payload:{id:key,...row}})   
         
     }

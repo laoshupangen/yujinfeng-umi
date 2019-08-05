@@ -4,7 +4,7 @@ const models = {
     state:{
        campus:[],
        buildings:[],
-       allowGenders:[{key:'unlimited',value:'待定'},{key:'female',value:'女'},{key:'male',value:'男'}],
+       allowGenders:[{key:'allowGenders.unlimited',value:'待定'},{key:'allowGenders.female',value:'女'},{key:'allowGenders.male',value:'男'}],
        resources:[]
        
     },
@@ -36,7 +36,8 @@ const models = {
             yield put({type:'save',payload:{resources:[]}})
         },
         *updateResource({payload},{call}){
-            yield call(services.updateResource,{payload})
+            
+            yield call(services.updateResource,payload)
         }
 
     },

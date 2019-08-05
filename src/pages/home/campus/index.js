@@ -59,8 +59,8 @@ class Campus extends Component {
 
   }
   componentWillUnmount(){
-    this.map = null
-    console.log('um',this.map)
+    // this.map = null
+    // console.log('um',this.map)
   }
   shouldComponentUpdate(){
     console.log('su',this.map)
@@ -79,29 +79,33 @@ class Campus extends Component {
     });
     console.log(this.props)
     const mapGeo = new BMap.Geocoder()
+    //地址解析
     mapGeo.getPoint("北京市海淀区上地10街10号", function (point) {
       if (point) {
-        message.info(JSON.stringify(point))
+        // message.info(JSON.stringify(point))
         // alert(point)
         // this.map.centerAndZoom(point, 16);
         // this.map.addOverlay(new BMap.Marker(point));
       }
     },"北京市");
-    
+    let point = new BMap.Point(115.835319,  28.662582 )
     this.map.enableAutoResize()
     this.map.enableScrollWheelZoom()
-    // this.map.centerAndZoom(point, 14);
+    this.map.centerAndZoom(point, 14);
     this.map.setMapStyle({
       styleId: '65a2034e61a54228c1bb34e99780e977'
     });
-    this.getLocation(this.map)
+    // this.getLocation(this.map)
     const marks = [{ lng: 115.835319, lat: 28.662582 }, { lng: 115.834109, lat: 28.658445 }]
     this.addMarks(marks)
   }
 
 
   addMarks = (marks) => {
-    marks.forEach((mark) => {
+    // const data = props.data
+    const data = [{id:'45314097-3d9d-41c9-899d-4cf1ba829d03',name:'南航测试数据'},
+    {id:'45314097-3d9d-41c9-899d-4cf1ba829d03',name:'南航测试数据'}]
+    marks.forEach((mark,index) => {
       let point = new BMap.Point(mark.lng, mark.lat)
       let ma = new BMap.Marker(point)
       let infoWin = new BMap.InfoWindow('宿舍', { width: 250, height: 100, title: '前湖校区' })
@@ -112,7 +116,8 @@ class Campus extends Component {
         ma.closeInfoWindow(infoWin)
       })
       ma.addEventListener('click', function () {
-        router.push({ pathname: '/home/campus/campusDetail', state: { id: '45314097-3d9d-41c9-899d-4cf1ba829d03' } })
+        // router.push({ pathname: '/home/campus/campusDetail', state: { id: '45314097-3d9d-41c9-899d-4cf1ba829d03' } })
+        router.push(`/home/campus/campusDetail?cid=${data[index].id}&cname=${data[index].name}`)
       })
 
       this.map.addOverlay(ma)

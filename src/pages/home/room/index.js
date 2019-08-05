@@ -37,7 +37,7 @@ class Room extends Component {
       { title: '空余床位', dataIndex: 'freeBeds', key: 'freeBeds', align: 'center' },
       {
         title: '性别', dataIndex: 'allowGender', key: 'allowGender', align: 'center', render: (text) => {
-          text = text === '0' ? '男生' : (text === 'allowGender.unlimited' ? '未定义' : '女生')
+          text = text === 'allowGender.male' ? '男生' : (text === 'allowGender.female' ? '女生' : '未定义')
           return text
         }
       },
