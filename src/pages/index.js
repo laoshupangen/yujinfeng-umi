@@ -5,8 +5,8 @@ function App(props){
     return (
 
         
-        <Redirect to="/login" />
-        // <div></div>
+        // <Redirect to="/login" />
+        <div></div>
          
         
     )

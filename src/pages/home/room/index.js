@@ -13,7 +13,9 @@ class Room extends Component {
     data: [],
     pagination: { current: 1 },
     loading: false,
-    isAddShow: false
+    isAddShow: false,
+    selectItem: '',
+    ModalTitle: '新增房间'
 
   };
   rowSelection = {
@@ -61,18 +63,18 @@ class Room extends Component {
     const { setFieldsValue } = this.props.form
     // setFieldsValue({ buildingId: '42a62371-9fbf-4b0c-a086-5b6ed0ed8036' })
   }
-  handleSelect = ()=>{
-    const {getFieldsValue} = this.props.form
-    let tems = getFieldsValue(['campusId','buildingId'])
+  handleSelect = () => {
+    const { getFieldsValue } = this.props.form
+    let tems = getFieldsValue(['campusId', 'buildingId'])
     console.log(tems)
-    if(tems.campusId&&!tems.buildingId){
-      this.buildingsSelect = this.props.buildings.filter(b=>b.campusId === tems.campusId).map(b=>{return {key:b.id,value:b.title}})
+    if (tems.campusId && !tems.buildingId) {
+      this.buildingsSelect = this.props.buildings.filter(b => b.campusId === tems.campusId).map(b => { return { key: b.id, value: b.title } })
     }
-    if(tems.campusId&&tems.buildingId){
-      let floors = this.props.buildings.find(b=>b.id===tems.buildingId),tem = []
+    if (tems.campusId && tems.buildingId) {
+      let floors = this.props.buildings.find(b => b.id === tems.buildingId), tem = []
       console.log(floors)
-      for (let i=floors.floors;i>0;i--){
-        tem.push({key:i,value:i})
+      for (let i = floors.floors; i > 0; i--) {
+        tem.push({ key: i, value: i })
       }
       this.floorSelect = tem
     }
@@ -86,34 +88,47 @@ class Room extends Component {
     dispatch({ type: 'room/get', payload: { pageIndex: this.props.pagination.current, pageSize: 20 } })
     // this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
   };
-  handleFormChange = () =>{
-     const {validateFields,getFieldsValue} = this.props.form
-     let dlist = getFieldsValue(['campusId','title'])
-     console.log(dlist)
-     validateFields(['campusId','title'],(error,values)=>{
-       console.log(values)
-     })
-  }
-  
-  showModal = (record) => {
-    this.setState({
-      isAddShow: false
+  handleFormChange = () => {
+    const { validateFields, getFieldsValue } = this.props.form
+    let dlist = getFieldsValue(['campusId', 'title'])
+    console.log(dlist)
+    validateFields(['campusId', 'title'], (error, values) => {
+      console.log(values)
     })
+  };
+  generateFloorSelect = (floors) => {
+    let tem = []
+    for (let i = Number(floors); i > 0; i--) {
+      tem.push({ key: i, value: i })
+    }
+    return tem
+  }
+
+  showModal = (record) => {
+    const { getFieldsValue, setFieldsValue, resetFields } = this.props.form
+    resetFields()
     this.setState({
+      isAddShow: false,
       visible: true,
-    });
+      ModalTitle: '新增房间',
+    })
 
     if (record.id) {
 
       this.setState({
-        isAddShow: true
+        isAddShow: true,
+        ModalTitle: '修改房间信息',
+        selectItem: record
       })
-      const { getFieldsValue, setFieldsValue, resetFields } = this.props.form
-      resetFields()
+      // this.floorSelect
+      // let tembid = record.buildingId
+      // let temfloors = this.props.buildings.find(b => b.id === tembid).floors
+      // this.floorSelect = this.generateFloorSelect(temfloors)
+
+
       let formdata = getFieldsValue()
       let keys = Object.keys(formdata)
       keys.forEach((key, index) => {
-        console.log(key, formdata[key])
         if (!formdata[key]) {
           let temobj = {}
           temobj[key] = record[key]
@@ -133,7 +148,7 @@ class Room extends Component {
   };
   handleOk = e => {
     const { dispatch } = this.props
-    const { getFieldsValue ,validateFieldsAndScroll} = this.props.form
+    const { getFieldsValue, validateFieldsAndScroll } = this.props.form
     let forms = getFieldsValue()
     if (!this.state.isAddShow) {
       // buildingId,number,floor,title,bedCount,allowGender
@@ -152,8 +167,8 @@ class Room extends Component {
     dispatch({ type: 'room/paginationChange', payload: { current: pagination.current, pageSize: this.props.pagination.pageSize } })
   };
   render() {
-    
-    const { getFieldDecorator,validateFields } = this.props.form
+
+    const { getFieldDecorator, validateFields } = this.props.form
     const buildIds = this.props.data.reduce((pre, cur, index) => {
       if (pre && pre.findIndex(p => cur.buildingId === p) === -1) {
         return [...pre, cur.buildingId]
@@ -161,7 +176,7 @@ class Room extends Component {
         return pre
       }
     }, [])
-    
+
     const campus = this.props.campus.map(c => {
       return {
         key: c.id, title: c.name,
@@ -171,7 +186,7 @@ class Room extends Component {
     return (
       <Layout style={{ height: '100%' }}>
         <Layout.Sider width={140} theme='light'>
-          <Tree treeData={campus} defaultCheckedKeys={buildIds} checkable>
+          <Tree treeData={campus} defaultCheckedKeys={buildIds} style={{ overflow: 'auto', height: '100%' }} checkable>
 
           </Tree>
         </Layout.Sider>
@@ -196,7 +211,7 @@ class Room extends Component {
 
             </div>
           </div>
-          <Table
+          {this.props.data && <Table
             columns={this.columns}
             rowKey={record => record.id}
             dataSource={this.props.data}
@@ -204,9 +219,10 @@ class Room extends Component {
             loading={this.props.loading}
             onChange={this.handleTableChange}
             bordered
-          />
+            rowSelection={this.rowSelection}
+          />}
           <Modal
-            title="新增房间"
+            title={this.state.ModalTitle}
             visible={this.state.visible}
             onOk={this.handleOk}
             onCancel={this.handleCancel}
@@ -221,7 +237,7 @@ class Room extends Component {
                       message: '输入房间编号',
                     },
                   ],
-                })(<Input placeholder="输入房间编号" />)}
+                })(<Input disabled={this.state.isAddShow} placeholder="输入房间编号" />)}
               </Form.Item>
               <Form.Item label="房间名称" {...formItemLayout}>
                 {getFieldDecorator('title', {
@@ -233,21 +249,43 @@ class Room extends Component {
                   ],
                 })(<Input placeholder="输入房间名称" />)}
               </Form.Item>
-              <Form.Item label="所在校区" {...formItemLayout}>
-                {getFieldDecorator('campusId', {
+              {this.state.isAddShow &&<Form.Item label="所在校区" {...formItemLayout}>
+                {getFieldDecorator('campusName', {
                   rules: [
                     {
                       required: true,
                       message: '选择',
                     },
                   ],
-                })(<Select placeholder="选择校区" onSelect={this.handleSelect} style={{ width: '100%' }}>
-                  {this.props.campus.map(d => (
-                    <Option key={d.id}>{d.name}</Option>
-                  ))}
-                </Select>)}
-              </Form.Item>
-              <Form.Item label="所在楼栋" {...formItemLayout}>
+                })( <Input disabled/>)}
+                 
+              </Form.Item>}
+               {!this.state.isAddShow&&<Form.Item label="所在校区" {...formItemLayout}>
+               {getFieldDecorator('campusId', {
+                  rules: [
+                    {
+                      required: true,
+                      message: '选择',
+                    },
+                  ],
+                })((<Select placeholder="选择校区" onSelect={this.handleSelect} style={{ width: '100%' }}>
+                    {this.props.campus.map(d => (
+                      <Option key={d.id}>{d.name}</Option>
+                    ))}
+                    </Select>))}
+                  </Form.Item>
+                }
+                {this.state.isAddShow &&<Form.Item label="所在校区" {...formItemLayout}>
+                {getFieldDecorator('buildingName', {
+                  rules: [
+                    {
+                      required: true,
+                    },
+                  ],
+                })( <Input disabled/>)}
+                 
+              </Form.Item>}
+              {!this.state.isAddShow&&<Form.Item label="所在楼栋" {...formItemLayout}>
                 {getFieldDecorator('buildingId', {
                   rules: [
                     {
@@ -260,7 +298,7 @@ class Room extends Component {
                     <Option key={d.key}>{d.value}</Option>
                   ))}
                 </Select>))}
-              </Form.Item>
+              </Form.Item>}
               <Form.Item label="所在楼层" {...formItemLayout}>
                 {getFieldDecorator('floor', {
                   rules: [
@@ -280,7 +318,7 @@ class Room extends Component {
                   rules: [
                     {
                       required: true,
-                     
+
                       message: '输入床位数',
                     },
                   ],
@@ -295,7 +333,7 @@ class Room extends Component {
                     },
                   ],
                 })(<Select placeholder="房间类型" style={{ width: '100%' }}>
-                  {this.props.allowGenders.map(gender=><Option key={gender.key}>{gender.value}</Option>)}
+                  {this.props.allowGenders.map(gender => <Option key={gender.key}>{gender.value}</Option>)}
                 </Select>)}
               </Form.Item>
               <Form.Item label="寝室长" {...formItemLayout}>
@@ -317,7 +355,7 @@ class Room extends Component {
                     },
                   ],
                 })(<Select placeholder="是" style={{ width: '100%' }}>
-                  {this.props.has.map(gender=><Option key={gender.key}>{gender.value}</Option>)}
+                  {this.props.has.map(gender => <Option key={gender.key}>{gender.value}</Option>)}
                 </Select>)}
               </Form.Item>
               <Form.Item label="热水器" {...formItemLayout}>
@@ -329,7 +367,7 @@ class Room extends Component {
                     },
                   ],
                 })(<Select placeholder="是" style={{ width: '100%' }}>
-                  {this.props.has.map(gender=><Option key={gender.key}>{gender.value}</Option>)}
+                  {this.props.has.map(gender => <Option key={gender.key}>{gender.value}</Option>)}
                 </Select>)}
               </Form.Item>
             </Form>
@@ -342,31 +380,20 @@ class Room extends Component {
     )
   }
 }
-Room = Form.create({
-  // onFieldsChange(props,changedFields){
-  //   console.log(',,,',changedFields,props)
-  //   if(changedFields.campusId){
-  //     let builds = props.buildings
-  //     props.buildingsSelect = builds.filter(b=>b.campusId===changedFields.campusId.value)
-  //   }
-  // },
-  // onValuesChange(_, values) {
-  //   // console.log(values);
-  // },
-})(Room)
+Room = Form.create({})(Room)
 export default connect(state => {
   console.log('state.Room', state)
   return {
     campus: state.list.campus,
-    allowGenders:state.list.allowGenders,
-    has:[{key:'true',value:'是'},{key:'false',value:'否'}],
+    allowGenders: state.list.allowGenders,
+    has: [{ key: 'true', value: '是' }, { key: 'false', value: '否' }],
     buildings: state.list.buildings,
     loading: state.loading.models.room,
     data: state.room.rooms,
     pagination: {
       current: state.room.pagination.current,
       pageSize: state.room.pagination.pageSize,
-      total: state.room.rooms.recordCount
+      total: state.room.pagination.total
     }
   }
 })(Room)

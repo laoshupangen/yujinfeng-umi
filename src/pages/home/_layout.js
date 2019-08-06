@@ -81,14 +81,13 @@ class Home extends Component {
     })
   }
   loginOut = () => {
-    console.log('loginout', this.props)
     const { dispatch } = window.g_app._store
     
-    dispatch({ type: 'user/LoginQut', payload: {} })
+    dispatch({ type: 'user/LoginQut'})
   }
   componentDidMount() {
 
-    // console.log('storage', localStorage.getItem('token'))
+    
     // const location = this.props.location.pathname.split('/').filter((l, index) => index < 3).join('/')
     // const currentMenu = getValueByArray(this.menus, { route: location })
     // if (currentMenu.currentMenu) {
@@ -112,7 +111,7 @@ class Home extends Component {
 
   }
   render() {
-    const Authorization = sessionStorage.getItem('Authorization')
+    const Authorization = false
     if (Authorization) {
       const menulist = JSON.parse(localStorage.getItem('menulist'))
       let sMenu = <Menu.Item key='smenu' disabled><Icon type='warning' />没有数据</Menu.Item>

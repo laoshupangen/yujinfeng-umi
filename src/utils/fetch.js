@@ -13,7 +13,7 @@ var defaultOptions = {
         'Authorization':sessionStorage.getItem('Authorization')
     },
     credentials: 'include',
-    mode:'cors'  
+    mode:'no-cors'  
 }
 const JsonToString = function(obj){
    let str = ''
@@ -46,68 +46,41 @@ const $ = {
 
 
 const checkStatus = function(res){  
-    
     if(res.status>=200&&res.status<300){
-        if(res.headers.has('Authorization')){
-            let authorization = res.headers.get('Authorization')
-            
-            sessionStorage.setItem('Authorization',authorization)
+        // if(res.headers.has('Authorization')){
+        //     let authorization = res.headers.get('Authorization')
+        //     sessionStorage.setItem('Authorization',authorization)
+        // }
+        if(res.status===204){
+            return res.text()
         }
-
-
-
-        if(res.status === 204){
-           return 
-        }
-        return res;
+        return res.json();
     }
-    if(res.status==='303'){
-        if(sessionStorage.getItem('Authorization')){
-            message.error('请重新登录')
-            router.push('/login')
-        }else{
-            // message.error('未')
-            window.location.href = '/Login'
-        }
-        return false
-    }
-    if(res.status==='401'){
-       message.error('角色无相应功能权限,请联系管理员设置')
-       return false
-    }
+   
     
     const error = new Error(res.statusText);    
     
     error.res = res;
     throw error;
+   
 }
-//约定接口返回结构{code:,msg:,data:}code=0时,代表接口无异常，其他均为异常
+
  async function request(url,options){
     try{
-        const res = await fetch(url,options);
-       
-        checkStatus(res)
-        if(res.status===204){
-            return 
-         }
+        let res = await fetch(url,options);
+        res = checkStatus(res)
         
-        // if(!checkStatus(res)){
-        //     return 
-        // }
-        // console.log('res',res)
-       
-        const data = await res.json()
+        const data = await res
+        
         // console.log('data',data)
-        
         const req = {
             data
         }
         return req
-
     }catch(e){
         // console.table(e)
         // console.log(e.message)
-        message.error(e.message)
+        message.error(e)
     }
     
 }

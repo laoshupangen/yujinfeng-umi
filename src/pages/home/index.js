@@ -13,7 +13,7 @@ function home (props) {
         const {dispatch} = props
         console.log('tt',row,key)
         // console.log({id:key,...row})
-        dispatch({type:'list/updateResource',payload:{id:key,...row}})   
+        // dispatch({type:'list/updateResource',payload:{id:key,...row}})   
         
     }
     const columns1 = [{ title: '名称', dataIndex: 'name', key: 'name', align: '' },
@@ -80,11 +80,4 @@ function home (props) {
     )
 }
 
-export default connect(
-    state=>{
-        console.log('home',state)
-        return {
-            menulist:state.user.menulist
-        }
-    }
-)(home)
+export default home

@@ -10,9 +10,9 @@ const models = {
        }
     },
     effects:{
-      *fetch({payload:{}},{call,put}){
-        const { data } = yield call(service.getBuildingList, { })
-        console.log(data)
+      *fetch({payload},{call,put}){
+        const { data } = yield call(service.getBuildingList)
+        // console.log(data)
         yield put({type:'save',payload:{buildings:data}})
       },
       *delete({payload},{call}){
@@ -21,6 +21,11 @@ const models = {
       },
       *add({payload},{call}){
         yield call(service.addBuilding,payload)
+      },
+      *update({payload},{call,put}){
+        yield call(service.editBuilding,payload)
+        const { data } = yield call(service.getBuildingList)
+        yield put({type:'save',payload:{buildings:data}})
       }
     },
     subscriptions:{
@@ -28,6 +33,7 @@ const models = {
         return history.listen(({ pathname, query }) => {
               if (pathname === '/home/buildings') {
                   dispatch({ type: 'fetch'})
+                  // dispatch({type:'buildings/update',payload:{id:this.state.selectItem,...forms}})
                 }
             })
         }

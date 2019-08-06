@@ -7,8 +7,9 @@ const formItemLayout = {
   labelCol: { span: 6 },
   wrapperCol: { span: 12 },
 };
+
 import EditableFormTable from '@/components/EditableFormTable'
-import { treeAdapters } from 'parse5';
+
 class campusEdit extends Component {
   state = {
     data: [],
@@ -53,10 +54,7 @@ class campusEdit extends Component {
   handleDelete = record => {
     const { dataSource, dispatch } = this.props;
     console.log(this.props)
-
-    dispatch({ type: 'room/delete', payload: { id: record.id } })
-    dispatch({ type: 'room/get', payload: { pageIndex: this.props.pagination.current, pageSize: 20 } })
-    // this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+    
   };
   showModal = (record) => {
     this.setState({
@@ -88,8 +86,10 @@ class campusEdit extends Component {
 
     }
   };
-  save = (row)=>{
-    console.log('xxxrow',row)
+  
+  save = (row,key)=>{
+    const {dispatch} = this.props
+    dispatch({type:'campusEdit/update',payload:{id:key,...row}})
   }
   handleCancel = e => {
     this.setState({
@@ -116,7 +116,7 @@ class campusEdit extends Component {
     const { getFieldDecorator } = this.props.form
     return (
       <Layout style={{ height: '100%' }}>
-        <Layout.Sider width="auto" theme='light'>
+        <Layout.Sider width="200" theme='light'>
           <Tree checkable>
             <TreeNode title="校区列表" key="0-0">
               {this.props.data.map(tree=>(<TreeNode title={tree.name} key={tree.id}></TreeNode>))}
@@ -195,7 +195,7 @@ class campusEdit extends Component {
 }
 campusEdit = Form.create({})(campusEdit)
 export default connect(state => {
-  console.log('state.campusEdit', state)
+ 
   return {
     loading: state.loading.models.campusEdit,
     data: state.campusEdit.campus,

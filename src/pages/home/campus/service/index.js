@@ -23,6 +23,8 @@ export const getBuildingList = ()=>{
     return $.post('/Building/List')
 }
 
-export const getBuild = (id)=>{
-    return $.get('/Campus/buildDetail',{id})
+export const getBuild = ({buildingId})=>{
+    return $.post('/bed/BuildingBedsInfo',{buildingId})
 }
+
+//根据buildingId获取响应数据

@@ -14,6 +14,7 @@ export const editCampus = ({id,name,number,address})=>{
     return $.post('/Campus/Update',{id,name,number,address})
 }
 // 删除某个校区信息
-export const deleteCampus = (id)=>{
-    return $.get('/Campus/Delete',{params:{id}})
+export const deleteCampus = ({id})=>{
+    return $.post('/Campus/Delete',{params:{id}})
 }
+

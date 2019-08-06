@@ -8,7 +8,6 @@ const models = {
     },
     reducers:{
        save(state,{payload}){
-           console.log('ppp',payload)
            return {...state,...payload}
        },
        paginationChange(state,{payload:pagination}){
@@ -32,9 +31,10 @@ const models = {
       *delete({payload:{id}},{call}){
         yield call(service.deleteCampus,{id})
       },
-      *update({payload:{id,name,number,address}},{call}){
-          yield call(service.editCampus,{id,name,number,address})
-
+      *update({payload},{put,call}){
+          yield call(service.editCampus,payload)
+          const { data } = yield call(service.getCampusList,{keyword:''}) 
+          yield put({type:'save',payload:{campus:data}})
       }
 
     },

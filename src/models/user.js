@@ -26,34 +26,33 @@ export default {
             yield put({type:'save',payload:{btnStatus:true}})
             try{
                 yield call(services.Login,payload)
-                yield call(services.Info)
-                const res =yield call(services.Menu)
-                localStorage.setItem('menulist',JSON.stringify(res.data))
+                // yield call(services.Info)
+                // const res =yield call(services.Menu)
+                
                 yield put({type:'save',payload:{loginStatus:true}})
                 yield put({type:'save',payload:{btnStatus:false}})
                 yield put(routerRedux.push('/home'))
 
             }catch(err){
+                yield put(routerRedux.push('/login'))
                 message.error(err)
             }
             
-            // localStorage.setItem('selfLogin',true)
+           
            
            
             
         },
         *menu({payload},{call,put}){
-            const res =yield call(services.Menu)
-            
-            
-            yield put({type:'save',payload:{menulist:res.data}})
+            // const res =yield call(services.Menu)
+            // yield put({type:'save',payload:{menulist:res.data}})
         },
         *sysDic({call,put,select}){
            const {data} = yield call(services.sysDic)
            yield put({type:'getDic',payload:{dics}})
         },
         *LoginQut({payload},{call,put}){
-           const res = yield call(services.LoginQut,payload)
+           const res = yield call(services.LoginQut)
           
            if(!res){
               sessionStorage.clear()
@@ -65,10 +64,9 @@ export default {
     },
     subscriptions:{
         setup({dispatch,history}){
-            // dispatch({type:'buildings/fetch'})
             return history.listen(({pathname,query})=>{
                 if(pathname === '/home'){
-                    dispatch({type:'menu',payload:{}})
+                    // dispatch({type:'menu',payload:{}})
                     
                 }
             })

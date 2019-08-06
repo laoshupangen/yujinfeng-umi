@@ -3,7 +3,7 @@ body,html{
     height: 100%;
     overflow: hidden;
 }
-body{
+.loginImage{
     background: url('@/assets/login.jpg');
     background-attachment: fixed;
     background-size: cover;

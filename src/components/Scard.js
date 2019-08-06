@@ -5,7 +5,7 @@ function InfoPanel(props) {
         <div className="floatInfo">
             <div className="fli">
                <div>{props.data.title}</div>
-               <div>共{props.data.checkinCount}个床位,共{props.data.floors}层,入住{props.data.floors}床位,空余{props.data.floors}床位</div>
+               <div>共{props.data.bedCount}个床位,共{props.data.floors}层,入住{props.data.checkinCount}床位,空余{ Math.abs(props.data.bedCount-props.data.checkinCount)}床位</div>
             </div>
         </div>
     )

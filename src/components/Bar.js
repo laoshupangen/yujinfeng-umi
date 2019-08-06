@@ -8,14 +8,20 @@ class Bar extends React.Component {
     componentDidMount() {
         // 基于准备好的dom，初始化echarts实例
         //this.props.data
-        const seriesData = { '空床位': [120, 132, 101, 134, 90, 230, 210], '维修中': [220, 182, 191, 234, 290, 330, 310] }
-        const xAxisData = ['M1栋', 'M2栋', 'M3栋', 'M4栋', 'M5栋', 'M6栋', 'M7栋']
+        // const seriesData = { '空床位': [120, 132, 101, 134, 90, 230, 210], '维修中': [220, 182, 191, 234, 290, 330, 310] }
+        // const xAxisData = ['M1栋', 'M2栋', 'M3栋', 'M4栋', 'M5栋', 'M6栋', 'M7栋']
+        const xAxisData = this.props.data.map(p=>p = p.floorNumber)
+        const seriesData = {
+            '空床位':this.props.data.map(p=>p=p.freeBedsCount),
+            '维修中':this.props.data.map(p=>p.broken)
+
+        }
         const myChart = echarts.init(document.getElementById('main'));
         window.onresize = function () {
             myChart.resize()
         }
         const option = {
-
+            color:['#FC9500','#D9DEE1'],
             tooltip: {
                 trigger: 'axis'
             },
@@ -60,7 +66,7 @@ class Bar extends React.Component {
     }
     render() {
         return (
-            <div id="main" style={{ width: '100%', height: 400 }} />
+            <div id="main" style={{ width: '100%', height: 300 }} />
         );
     }
 }

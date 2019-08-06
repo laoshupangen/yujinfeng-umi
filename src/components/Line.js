@@ -14,13 +14,13 @@ class Line extends React.Component {
     //this.props.data
     console.log(this.props)
     const xAxisData = this.props.data.map(d=>d.title)   
-    console.log('x',xAxisData)
-    // const seriesData = {
-    //     '空床位':this.props.map(),
-    //     '维修中':this.props.map(),
-    // }
-
-    const seriesData = {'空床位':[10, 20, 15, 18, 22, 29, 35],'维修中':[14, 23, 28, 32, 34, 24, 26]}
+   
+    const seriesData = {
+        '空床位':this.props.data.map(p=> p =Math.abs( p.bedCount-p.checkinCount)),
+        '维修中':this.props.data.map(p=> p=0),
+    }
+    console.log()
+    // const seriesData = {'空床位':[10, 20, 15, 18, 22, 29, 35],'维修中':[14, 23, 28, 32, 34, 24, 26]}
     // const xAxisData = ['M1栋','M2栋','M3栋','M4栋','M5栋','M6栋','M7栋']
     const myChart = echarts.init(document.getElementById('main'));
     window.onresize = function(){

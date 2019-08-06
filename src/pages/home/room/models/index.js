@@ -6,29 +6,26 @@ const models = {
        rooms:[],
        pagination:{
            current:1,
-           pageSize:20
+           pageSize:20,
+           total:1
        }
     },
     reducers:{
        save(state,{payload}){
-           console.log('ppp',payload)
+           
            return {...state,...payload}
        },
-       paginationChange(state,{payload:pagination}){
-           console.log('??paginationChange',pagination)
-           return {...state,pagination}
-
-       }
+       
     },
     effects:{
-      *get({payload:{pageSize,pageIndex,sortName,sortOrder}},{call,put}){
-        const { data } = yield call(service.getRoom,{pageSize,pageIndex,sortName,sortOrder}) 
+      *get({payload},{call,put}){
+        const { data } = yield call(service.getRoom,payload) 
           
-        yield put({type:'save',payload:{rooms:data.list}})
+        yield put({type:'save',payload:{rooms:data.list,pagination:{total:data.pageCount,current:payload.pageIndex,pageSize:payload.pageSize}}})
       },
-      *add({payload:{buildingId,number,floor,title,bedCount,allowGender}},{call,put}){ 
-          const {data} = yield call(service.addRoom,{buildingId,number,floor,title,bedCount,allowGender}) 
-          console.log(data)
+      *add({payload},{call,put}){ 
+           yield call(service.addRoom,payload) 
+          
       },
       *delete({payload:{id}},{call}){
         yield call(service.deleteRoom,{id})

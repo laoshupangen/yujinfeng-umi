@@ -45,17 +45,14 @@ const models = {
         setup({dispatch,history }){
            
             return history.listen(({pathname,query})=>{
-                if(pathname === '/home/room'||pathname ==='/home/buildings'){
+                if(pathname === '/home/room'){
                     dispatch({type:'get',payload:{keyword:''}})
                 }
-                if(pathname === 'home/campus'){
+               
+                
+                if(pathname === '/home/buildings'){
+                    // dispatch({type:'getResources',payload:{type:'',keyword:''}})
                     dispatch({type:'getCampus',payload:{keyword:''}})
-                }
-                if(pathname === 'home/campus/campusDetail'){
-                    // dispatch({type:'getBuildings'})
-                }
-                if(pathname === '/home'){
-                    dispatch({type:'getResources',payload:{type:'',keyword:''}})
                 }
 
             })

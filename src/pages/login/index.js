@@ -9,7 +9,7 @@ const App = function (props) {
     console.log(props)
     const state = {
         userName: '',
-        password: '',        
+        password: '',
     }
     const getFormName = (e) => {
         e.persist()
@@ -35,68 +35,71 @@ const App = function (props) {
     }
 
     const handleSubmit = function (e) {
-        e.preventDefault()       
-        
+        e.preventDefault()
+
         if (state.password === '' || state.userName === '') {
             message.warn('账号或密码不能为空')
             return
         }
         let k = valid(state.userName);
-        
-        
-        props.dispatch({type:'user/btnStatus',payload:{data:true}})
+
+
+        props.dispatch({ type: 'user/btnStatus', payload: { data: true } })
         switch (k) {
             case 0:
-                props.dispatch({ type: 'user/Login',payload:{account:state.userName,password:state.password}});
+                props.dispatch({ type: 'user/Login', payload: { account: state.userName, password: state.password } });
                 break;
             case 1:
-                props.dispatch({ type: 'user/Login',payload:{email:state.userName,password:state.password}});
+                props.dispatch({ type: 'user/Login', payload: { email: state.userName, password: state.password } });
                 break;
-            case 2:               
-               props.dispatch({ type: 'user/Login',payload:{phone:state.userName,password:state.password}});               
+            case 2:
+                props.dispatch({ type: 'user/Login', payload: { phone: state.userName, password: state.password } });
                 break;
         }
-        
+
 
 
     }
-  
+
 
     return (
-        <Row className={styles.container}>
-            <Col xs={{span:12,offset:6}} sm={{span:6,offset:9}}>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Item >
-                        <Input placeholder="用户名/手机号/邮箱"
-                            onChange={getFormName}
-                            prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />
+        <div className={styles.loginImage} style={{width:'100%',height:'100%'}}>
+            <Row className={styles.container}>
+                <Col xs={{ span: 12, offset: 6 }} sm={{ span: 6, offset: 9 }}>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Item >
+                            <Input placeholder="用户名/手机号/邮箱"
+                                onChange={getFormName}
+                                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} />
 
-                    </Form.Item>
+                        </Form.Item>
 
-                    <Form.Item >
-                        <Input type="password" placeholder="密码"
-                            onChange={getFormPassword}
-                            prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} />
-                    </Form.Item>
+                        <Form.Item >
+                            <Input type="password" placeholder="密码"
+                                onChange={getFormPassword}
+                                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} />
+                        </Form.Item>
 
-                    <Form.Item>
-                        <Button loading={props.loading} type="primary" htmlType="submit" className={styles.loginForm}>登陆</Button>
+                        <Form.Item>
+                            <Button loading={props.loading} type="primary" htmlType="submit" className={styles.loginForm}>登陆</Button>
 
-                    </Form.Item>
-                </Form>
+                        </Form.Item>
+                    </Form>
 
-            </Col>
+                </Col>
 
-        </Row>
+            </Row>
+
+        </div>
 
 
     )
 }
 function mapState(state) {
-  console.log(state)
-  return {
-      loading:state.user.btnStatus,      
-  };
+    console.log(state)
+    return {
+        loading: state.user.btnStatus,
+    };
 }
 
 

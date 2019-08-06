@@ -56,18 +56,18 @@ class EditableTable extends React.Component {
 
     this.columns2 = [...this.props.columns, {
       title: '操作',
-      dataIndex: '',
+      key: 'operation',
       render: (text, record) => {
         const { editingKey } = this.state;
         const editable = this.isEditing(record);
-        
+       
         if (text.parentId!==null) {
           return (<div>{editable ? (<span>
             <EditableContext.Consumer>
               {form => (
                 <a
                   href="javascript:;"
-                  onClick={() => this.save(form, record.key)}
+                  onClick={() => this.save(form, record.id)}
                   style={{ marginRight: 8 }}
                 >
                   保存
@@ -102,7 +102,7 @@ class EditableTable extends React.Component {
   };
 
   save(form, key) {
-    
+    console.log(key)
     form.validateFields((error, row) => {
       if (error) {
         return;
@@ -151,6 +151,7 @@ class EditableTable extends React.Component {
         <Table
           components={components}
           bordered
+          rowKey="id"
           dataSource={this.props.data}
           columns={columns}
           pagination={this.props.pagination}
