@@ -12,8 +12,8 @@ export const deleteRoom = ({id})=>{
     return $.post('/Room/Delete',{id})
 } 
 // 获取房间列表
-export const getRoom = ({pageSize,pageIndex,sortName,sortOrder})=>{
-    return $.post('/Room/Page',{pageSize,pageIndex,sortName,sortOrder})
+export const getRoom = ({buildingId,floor,pageSize,pageIndex,sortName,sortOrder})=>{
+    return $.post('/Room/Page',{buildingId,floor,pageSize,pageIndex,sortName,sortOrder})
 } 
 // 单个房间分配
 export const assignRoom = ({ studentId,roomId})=>{
@@ -39,3 +39,4 @@ export const checkOutRoon = ({checkInId,studentId,roomId})=>{
     return $.post('/Room/CheckOut',{checkInId,studentId,roomId})
 } 
 
+// 

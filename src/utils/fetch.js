@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import router from 'umi/router'
 import { message } from 'antd';
 const API_HOST= 'http://192.168.1.125:10000/api'
+// const API_HOST = 'http://localhost:8082/api'
 
 
 // setTimeout(()=>console.dir(window.g_app),1000)
@@ -13,7 +14,7 @@ var defaultOptions = {
         'Authorization':sessionStorage.getItem('Authorization')
     },
     credentials: 'include',
-    mode:'no-cors'  
+    mode:'cors'  
 }
 const JsonToString = function(obj){
    let str = ''

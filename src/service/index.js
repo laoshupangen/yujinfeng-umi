@@ -73,6 +73,6 @@ export const getCampusList = ({ keyword }) => {
 }
 
 // 获取楼栋列表
-export const getBuildingList = () => {
-    return $.post('/Building/List')
+export const getBuildingList = ({campusId}) => {
+    return $.post('/Building/List',{campusId})
 }

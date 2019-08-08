@@ -1,0 +1,14 @@
+.bMap{
+    background: url('@/assets/testmap.png');
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+}
+.icon{
+    position: absolute;
+    
+    z-index: 1000;
+    font-size: 40px;
+}

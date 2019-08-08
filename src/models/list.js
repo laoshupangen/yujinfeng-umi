@@ -16,20 +16,20 @@ const models = {
     },
     effects:{
         *get({payload},{call,put}){
-            let campuslist = yield call(services.getCampusList,payload)
-            let buildinglist = yield call(services.getBuildingList)
+            const {data} = yield call(services.getCampusList,payload)
+            // let buildinglist = yield call(services.getBuildingList)
             // console.log(campuslist.data,buildinglist)
             // yield put({type:'save',payload:{rooms:data.list}})
-            yield put({type:'save',payload:{campus:campuslist.data,buildings:buildinglist.data}})
+            yield put({type:'save',payload:{campus:data}})
 
         },
         *getBuildings({payload},{call,put}){
-            let buildinglist = yield call(services.getBuildingList)
-            yield put({type:'save',payload:{buildings:buildinglist.data}})
+            let {data} = yield call(services.getBuildingList,payload)
+            yield put({type:'save',payload:{buildings:data}})
         },
         *getCampus({payload},{call,put}){
-            let campuslist = yield call(services.getCampusList,payload)
-            yield put({type:'save',payload:{campus:campuslist.data}})
+            let {data} = yield call(services.getCampusList,payload)
+            yield put({type:'save',payload:{campus:data}})
         },
         *getResources({payload},{call,put}){
             yield call(services.listResource,{payload})
@@ -46,7 +46,9 @@ const models = {
            
             return history.listen(({pathname,query})=>{
                 if(pathname === '/home/room'){
-                    dispatch({type:'get',payload:{keyword:''}})
+                    dispatch({type:'getCampus',payload:{keyword:''}})
+                    dispatch({type:'getBuildings',payload:{campusId:''}})
+
                 }
                
                 

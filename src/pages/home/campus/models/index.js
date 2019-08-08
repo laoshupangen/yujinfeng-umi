@@ -22,8 +22,7 @@ const models = {
             if(sessionStorage.getItem('buildIds')){
                 sessionStorage.removeItem('buildIds')
             }
-            let buildinglist = yield call(service.getBuildingList)
-            console.log('buildinglist',buildinglist)
+            let buildinglist = yield call(service.getBuildingList,payload)
             let buildIds = buildinglist.data.map(b=>{return{key:b.id,value:b.title,freeBeds:(b.bedCount-b.checkinCount)}})
             sessionStorage.setItem('buildIds',JSON.stringify(buildIds))
             yield put({type:'save',payload:{buildings:buildinglist.data}})

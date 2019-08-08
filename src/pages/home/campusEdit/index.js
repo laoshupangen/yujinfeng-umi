@@ -32,8 +32,8 @@ class campusEdit extends Component {
       //     <Popconfirm title="确认删除?" onConfirm={() => this.handleDelete(record)}>
       //       <a href="javascript:">删除</a></Popconfirm></div>), align: 'center'
       // },
-      { title: '校区名称', dataIndex: 'name', key: 'name', align: 'center', editable: true },
-      { title: '校区编号', dataIndex: 'number', key: 'number', align: 'center', editable: true },
+      { title: '校区名称', dataIndex: 'name', key: 'name', align: 'center'},
+      { title: '校区编号', dataIndex: 'number', key: 'number', align: 'center'},
       { title: '地址', dataIndex: 'address', key: 'address', align: 'center', editable: true },
       { title: '宿舍楼栋数', dataIndex: 'buildingCount', key: 'buildingCount', align: 'center', editable: true, },
 
@@ -52,8 +52,9 @@ class campusEdit extends Component {
   }
   
   handleDelete = record => {
-    const { dataSource, dispatch } = this.props;
-    console.log(this.props)
+    const { dispatch } = this.props;
+    console.log(record)
+    // dispatch({type:'',payload:{id:record.id}})
     
   };
   showModal = (record) => {
@@ -85,7 +86,7 @@ class campusEdit extends Component {
 
 
     }
-  };
+  };  
   
   save = (row,key)=>{
     const {dispatch} = this.props

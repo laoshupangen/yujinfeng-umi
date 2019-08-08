@@ -1,29 +1,34 @@
+import * as service from '../service'
 const models = {
     namespace: 'checkIn',
     state: {
         current: 0,
         tabledata: [],
-        reserve: false
+        reserve:false,
+        builds:[]
     },
     reducers: {
-        save(state, { payload: current }) {
-
-            return { ...state, current }
+        save(state, { payload }) {
+            return { ...state, ...payload }
         },
-        reserve(state,{payload:reserve}){
-            console.log('reserve',reserve)
-            return {...state,reserve}
-        }
+
+        
     },
     effects: {
+        *getBuildings({payload},{call,put}){
+            console.log(payload)
+            yield {data} = call(service.getBuilding,payload)
+            console.log(data)
+            yield put({type:'save',payload:{builds:data}})
+        }
 
     },
     subscriptions: {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/home/checkIn') {
-                    // console.log('query',query)
-                    // dispatch({type:'get',payload:{keywords:''}})
+                    dispatch({type:'getBuildings',payload:{campusId:''}})
+                    
                 }
             })
         }

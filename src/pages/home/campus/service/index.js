@@ -19,12 +19,12 @@ export const deleteCampus = (id)=>{
 }
 
 // 获取楼栋
-export const getBuildingList = ()=>{
-    return $.post('/Building/List')
+export const getBuildingList = ({campusId})=>{
+    return $.post('/Building/List',{campusId})
 }
 
 export const getBuild = ({buildingId})=>{
-    return $.post('/bed/BuildingBedsInfo',{buildingId})
+    return $.post('/Building/CheckInfo',{buildingId})
 }
 
 //根据buildingId获取响应数据

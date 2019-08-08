@@ -36,8 +36,8 @@ function CampusDetail(props) {
     }
     
     const male = props.data.length === 0 ? [] : props.data.filter(pd =>pd.allowGender&&pd.allowGender.indexOf('allowGenders.male') !== -1)
-    // const female = props.data.filter(pd => pd.allowGender && pd.allowGender.indexOf('allowGenders.female') !== -1)
-    const female = props.data
+    const female = props.data.filter(pd => pd.allowGender && pd.allowGender.indexOf('allowGenders.female') !== -1)
+    // const female = props.data
     const bodyStylem = male.length!==0?{}:{border:'1px solid #eee'}
     const bodyStylef = female.length!==0?{}:{border:'1px solid #eee'}
     const colors = ['#F6CD2D','#4EC4E5','#FA6249','#5AD3A7']

@@ -11,7 +11,7 @@ const models = {
     },
     effects:{
       *fetch({payload},{call,put}){
-        const { data } = yield call(service.getBuildingList)
+        const { data } = yield call(service.getBuildingList,payload)
         // console.log(data)
         yield put({type:'save',payload:{buildings:data}})
       },
@@ -32,7 +32,7 @@ const models = {
         setup({dispatch,history}){
         return history.listen(({ pathname, query }) => {
               if (pathname === '/home/buildings') {
-                  dispatch({ type: 'fetch'})
+                  dispatch({ type: 'fetch',payload:{campusId:""}})
                   // dispatch({type:'buildings/update',payload:{id:this.state.selectItem,...forms}})
                 }
             })

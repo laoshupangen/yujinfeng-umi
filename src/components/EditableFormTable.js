@@ -60,13 +60,12 @@ class EditableTable extends React.Component {
       render: (text, record) => {
         const { editingKey } = this.state;
         const editable = this.isEditing(record);
-       
-        if (text.parentId!==null) {
+        console.log(text,record)
+        if (text.parentId!==null||!text.parentId) {
           return (<div>{editable ? (<span>
             <EditableContext.Consumer>
               {form => (
                 <a
-                  href="javascript:;"
                   onClick={() => this.save(form, record.id)}
                   style={{ marginRight: 8 }}
                 >
@@ -74,11 +73,11 @@ class EditableTable extends React.Component {
                   </a>
               )}
             </EditableContext.Consumer>
-            <a onClick={() => this.cancel(record.key)} style={{ marginRight: 8 }}>取消</a>
+            <a onClick={() => this.cancel(record.id)} style={{ marginRight: 8 }}>取消</a>
 
           </span>
           ) : (
-              <a disabled={editingKey !== ''} style={{ marginRight: 8 }} onClick={() => this.edit(record.key)}>
+              <a disabled={editingKey !== ''} style={{ marginRight: 8 }} onClick={() => this.edit(record.id)}>
                 编辑
             </a>
             )
@@ -138,7 +137,6 @@ class EditableTable extends React.Component {
         ...col,
         onCell: record => ({
           record,
-          inputType: col.dataIndex === 'age' ? 'number' : 'text',
           dataIndex: col.dataIndex,
           title: col.title,
           editing: this.isEditing(record),
@@ -151,7 +149,7 @@ class EditableTable extends React.Component {
         <Table
           components={components}
           bordered
-          rowKey="id"
+          rowKey={(record)=>record.id}
           dataSource={this.props.data}
           columns={columns}
           pagination={this.props.pagination}

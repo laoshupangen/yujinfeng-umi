@@ -1,7 +1,7 @@
 import $ from '@/utils/fetch'
 // 楼栋列表
-export const getBuildingList = ()=>{
-    return $.post('/Building/List')
+export const getBuildingList = ({campusId})=>{
+    return $.post('/Building/List',{campusId})
 }
 // 添加新的校区
 export const addBuilding = ({title,floors,campusId,number,allowGender,autoGenerate,roomsPerFloor,bedsPerRoom})=>{

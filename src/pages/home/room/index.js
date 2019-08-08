@@ -34,12 +34,13 @@ class Room extends Component {
           <Popconfirm title="确认删除?" onConfirm={() => this.handleDelete(record)}>
             <a href="javascript:">删除</a></Popconfirm></div>), align: 'center'
       },
+      { title: '房间名称', dataIndex: 'title', key: 'title', align: 'center', editable: true, },
       { title: '房间编号', dataIndex: 'number', key: 'number', align: 'center', editable: true },
       { title: '床位数', dataIndex: 'bedCount', key: 'bedCount', align: 'center' },
       { title: '空余床位', dataIndex: 'freeBeds', key: 'freeBeds', align: 'center' },
       {
         title: '性别', dataIndex: 'allowGender', key: 'allowGender', align: 'center', render: (text) => {
-          text = text === 'allowGender.male' ? '男生' : (text === 'allowGender.female' ? '女生' : '未定义')
+          text = text === 'allowGender.male' ? '男生' : (text === 'allowGender.female' ? '女生' : '')
           return text
         }
       },
@@ -48,7 +49,7 @@ class Room extends Component {
       { title: '寝室长', dataIndex: '', key: '', align: 'center', sorter: true },
       { title: '空调', dataIndex: '', key: '', align: 'center' },
       { title: '热水器', dataIndex: '', key: '', align: 'center', sorter: true },
-      { title: '房间名称', dataIndex: 'title', key: 'title', align: 'center', editable: true, },
+      
 
 
 
@@ -166,6 +167,12 @@ class Room extends Component {
     dispatch({ type: 'room/get', payload: { pageIndex: pagination.current, pageSize: this.props.pagination.pageSize } })
     dispatch({ type: 'room/paginationChange', payload: { current: pagination.current, pageSize: this.props.pagination.pageSize } })
   };
+  treeSelect = (value, node, extra)=>{
+    const {dispatch} = this.props
+    dispatch({type:'room/get',payload:{buildingId:value[0],pageSize:this.props.pagination.pageSize,pageIndex:1}})
+
+
+  }
   render() {
 
     const { getFieldDecorator, validateFields } = this.props.form
@@ -186,7 +193,7 @@ class Room extends Component {
     return (
       <Layout style={{ height: '100%' }}>
         <Layout.Sider width={140} theme='light'>
-          <Tree treeData={campus} defaultCheckedKeys={buildIds} style={{ overflow: 'auto', height: '100%' }} checkable>
+          <Tree treeData={campus} onSelect={this.treeSelect} style={{ overflow: 'auto', height: '100%' }}>
 
           </Tree>
         </Layout.Sider>
@@ -200,13 +207,11 @@ class Room extends Component {
                 <Button type="primary" >导出</Button>
               </div>
               <div>
-                <div className="selfFlex">
+                {/* <div className="selfFlex">
                   <Select defaultValue="楼层" style={{ width: 120, marginRight: '10px' }} loading={false}>
                     <Option value="lucy">楼层</Option>
                   </Select>
-                  <Input placeholder="输入关键字" style={{ width: '140px', marginRight: '10px' }} />
-                  <Button type="primary" >查询</Button>
-                </div>
+                </div> */}
               </div>
 
             </div>
