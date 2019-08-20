@@ -11,7 +11,7 @@ export default {
     ['umi-plugin-react', {
       antd: true,
       dva: true,
-      dynamicImport: {webpackChunkName:true},
+      // dynamicImport: {webpackChunkName:true},
       title: '智慧校园',
       dll: false,
       routes:{
@@ -20,13 +20,6 @@ export default {
     }],
     ['./bMap.js']
   ],
-  
-   
-    
-  
-  // publicPath:'./dist/static/js/',
-  // cssPublicPath:'./dist/static/css/'
-  
-
-  
+  publicPath:'/static/js/',
+  cssPublicPath:'/static/css/'
 }

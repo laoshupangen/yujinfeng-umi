@@ -1,8 +1,8 @@
 import fetch from 'dva/fetch';
 import router from 'umi/router'
 import { message } from 'antd';
-const API_HOST= 'http://192.168.1.125:10000/api'
-// const API_HOST = 'http://localhost:8082/api'
+// const API_HOST= 'http://192.168.1.125:10000/api'
+const API_HOST = 'http://115.223.19.233:9006/api'
 
 
 // setTimeout(()=>console.dir(window.g_app),1000)
@@ -27,12 +27,9 @@ const JsonToString = function(obj){
 const $ = {
     get:function(url,paramas){
         defaultOptions.method = 'get'
-        defaultOptions.body = JSON.stringify(paramas.params)
-       
-        // url += JsonToString(paramas.params)
-        // url = API_HOST + url
+        url += JsonToString(paramas.params)
+        url = API_HOST + url
         return request(url,defaultOptions)
-
     },
     post:function(url,paramas){
         url = API_HOST + url

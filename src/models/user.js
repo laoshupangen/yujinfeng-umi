@@ -1,7 +1,7 @@
 import * as services from '@/service'
 import { routerRedux } from 'dva/router';
-import router from 'umi/router'
 import {message} from 'antd'
+
 export default {
     namespace:'user',
     state:{
