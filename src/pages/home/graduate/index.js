@@ -20,6 +20,8 @@ class graduate extends Component {
   rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
       console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+      const {dispatch} = this.props
+      dispatch({type:'graduate/save',payload:{selected:selectedRowKeys}})
     },
 
   }
@@ -53,10 +55,10 @@ class graduate extends Component {
       { title: '姓名', dataIndex: 'name', key: 'name', align: 'center', sorter: true },
       { title: '学号', dataIndex: 'number', key: 'number', align: 'center', editable: true, },
 
-      { title: '院系', dataIndex: 'college', key: 'college', align: 'center' },
-      { title: '班级', dataIndex: 'floors', key: 'floors', align: 'center' },
+      { title: '院系', dataIndex: 'collegeName', key: 'collegeName', align: 'center' },
+      { title: '班级', dataIndex: 'className', key: 'className', align: 'center' },
 
-      { title: '毕业时间', dataIndex: '', key: '', align: 'center' },
+      { title: '毕业时间', dataIndex: '', key: '',render:()=>{return '2019'}, align: 'center' },
       { title: '宿舍', dataIndex: 'roomName', key: 'roomName', align: 'center' },
 
     ]
@@ -75,6 +77,19 @@ class graduate extends Component {
 
   };
   toastInfo = ()=>{
+    const {selected,dispatch,data} = this.props
+    if(selected.length===0){
+      message.info('未选择人员')
+      return
+    }
+    let temdata = data.map(d=>{
+      if(selected.indexOf(d.id)>-1){
+        return {...d,roomName:''}
+      }else{
+        return d
+      }
+    })
+    dispatch({type:'graduate/save',payload:{graduates:temdata}})
     message.success('退宿成功!')
   }
 
@@ -123,7 +138,8 @@ export default connect(state => {
       current: state.graduate.pagination.current,
       pageSize: state.graduate.pagination.pageSize,
       total: state.graduate.pagination.total
-    }
+    },
+    selected:state.graduate.selected
 
   }
 })(graduate)

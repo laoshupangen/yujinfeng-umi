@@ -6,7 +6,8 @@ const models = {
         pagination: {
             current: 1,
             pageSize: 20,
-        }
+        },
+        selected:[]
     },
     reducers: {
         save(state, { payload }) {
@@ -15,7 +16,7 @@ const models = {
     },
     effects: {
         *get({ payload }, { call, put }) {
-            yield { data } = call(service.graduateList, payload)
+            const { data } = yield call(service.graduateList, payload)
             yield put({ type: 'save', payload: { graduates: data.list, pagination: { total: data.pageCount, current: payload.pageIndex, pageSize: payload.pageSize } } })
 
         }
@@ -24,7 +25,7 @@ const models = {
         setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/home/graduate') {
-                    dispatch({ type: 'get', payload: { isGraduationQuery: true, pageIndex: 1, pageSize: 20 } })
+                    dispatch({ type: 'get', payload: { isGraduationQuery: false, pageIndex: 1, pageSize: 20 } })
 
                 }
             })

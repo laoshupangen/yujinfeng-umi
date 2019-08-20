@@ -37,6 +37,7 @@ function CampusDetail(props) {
     
     const male = props.data.length === 0 ? [] : props.data.filter(pd =>pd.allowGender&&pd.allowGender.indexOf('allowGenders.male') !== -1)
     const female = props.data.filter(pd => pd.allowGender && pd.allowGender.indexOf('allowGenders.female') !== -1)
+    const other = props.data.filter(pd => pd.allowGender==='null'||!pd.allowGender)
     // const female = props.data
     const bodyStylem = male.length!==0?{}:{border:'1px solid #eee'}
     const bodyStylef = female.length!==0?{}:{border:'1px solid #eee'}
@@ -56,7 +57,7 @@ function CampusDetail(props) {
         <>
             <div style={{ background: '#f0f2f5', padding: '0 10px 5px 10px' }}><a onClick={handleBack}><Icon type="arrow-left" />返回上一页</a></div>
             <Card title={props.location.query.cname} extra={<a onClick={()=>window.location.reload()} style={{ padding: '0', }}><Icon type="reload"/></a>} bodyStyle={{padding:'10px 24px'}} headStyle={{minHeight:'0',padding:'0 16px'}}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
                     <Card loading={props.loading} bordered={false} bodyStyle={bodyStylem} title="男宿舍楼" headStyle={headStyle} style={{ width: '450px' }}>
                         {male.length!==0&& male.map((ma,index) =>
                             (
@@ -67,6 +68,21 @@ function CampusDetail(props) {
                         )}
                         {
                             male.length === 0 && <Empty></Empty>
+                        }
+                        
+
+
+                    </Card>
+                    <Card loading={props.loading} bordered={false} bodyStyle={bodyStylem} title="混合楼" headStyle={headStyle} style={{ width: '450px' }}>
+                        {other.length!==0&& other.map((ma,index) =>
+                            (
+                                <Grid key={ma.id} style={gridStyle} onClick={()=> handleForward(ma)}>
+                                    <Scard title={ma.title} data={ma} color={colors[index%4]}></Scard>
+                                </Grid>
+                            )
+                        )}
+                        {
+                            other.length === 0 && <Empty></Empty>
                         }
                         
 

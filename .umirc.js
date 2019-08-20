@@ -1,4 +1,3 @@
-
 // ref: https://umijs.org/config/
 export default {
   treeShaking: true,
@@ -18,8 +17,6 @@ export default {
       routes:{
         exclude: [/models\//, /service/, /components/,],
       }
-      
-      
     }],
     ['./bMap.js']
   ],

@@ -1,4 +1,4 @@
-import { Steps, Carousel, Button, Layout, Pagination } from 'antd'
+import { Steps, Carousel, Button, Layout, Pagination, message } from 'antd'
 import TableList from '@/components/TableList'
 import { connect } from 'dva'
 
@@ -11,7 +11,6 @@ const { Footer, Content } = Layout
 function checkIn(props) {
     let slider = null
     function onChange(c) {
-        console.dir(c)
         slider.innerSlider.slickGoTo(c)
         const { dispatch } = props
 
@@ -83,6 +82,9 @@ function checkIn(props) {
         rowSelection: {
             onChange: (selectedRowKeys, selectedRows) => {
                 console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                let selectColloges = selectedRows.map(r=>({collegeId:r.departid,gender:r.allowGender}))
+                 const {dispatch} = props
+                 dispatch({type:'checkIn/save',payload:{selectColloges}})
             },
 
         },
@@ -144,18 +146,31 @@ function checkIn(props) {
 
     }
     const table2 = {
-        columns: [{ title: '校区', dataIndex: 'buildingName', key: 'buildingName', align: 'center' },
-        { title: '楼栋名称', dataIndex: '', key: '', align: 'center' },
-        { title: '楼栋类型', dataIndex: '', key: '', align: 'center' },
-        { title: '空余床位', dataIndex: '', key: '', align: 'center' },
-        { title: '空余房间', dataIndex: '', key: '', align: 'center' },
-        { title: '楼层数', dataIndex: '', key: '', align: 'center' },
-        { title: '楼栋管理员', dataIndex: '', key: '', align: 'center' }],
+        columns: [{ title: '校区', dataIndex: 'campusName', key: 'campusName', align: 'center' },
+        { title: '楼栋名称', dataIndex: 'title', key: 'title', align: 'center' },
+        { title: '楼栋类型', dataIndex: 'allowGender', key: 'allowGender', render:(record,text)=>{
+            return record === 'allowGenders.male'?'男生':(record === 'allowGenders.female'?'女生':'混合')
+        },align: 'center' },
+        { title: '空余床位', dataIndex: 'bedCount', key: 'bedCount',align: 'center',render:(record,text)=>{
+            
+            return text.bedCount - text.checkinCount
+        } },
+        // { title: '空余房间', dataIndex: 'roomCount', key: 'roomCount', align: 'center',render:(record,text)=>{
+        //     return text.roomCount 
+        // } },
+        { title: '楼层数', dataIndex: 'floors', key: 'floors', align: 'center' },
+        { title: '楼栋管理员', dataIndex: 'managment', key: 'managment', align: 'center' }],
         data: props.buildings,
         pagination: props.pagination,
         loading: false,
         rowSelection: {
-
+            onChange: (selectedRowKeys, selectedRows) => {
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                let selectRooms = selectedRows.map(r=>r.id)
+                 const {dispatch} = props
+                 dispatch({type:'checkIn/save',payload:{selectRooms}})
+                 dispatch({type:'checkIn/getFloors',payload:{buildingId:selectRooms[0]}})
+            },
         },
         select: {
             placeholder: '选择校区',
@@ -166,16 +181,30 @@ function checkIn(props) {
     }
     const table3 = {
         columns: [{ title: '楼栋', dataIndex: 'buildingName', key: 'buildingName', align: 'center' },
-        { title: '楼层', dataIndex: '', key: '', align: 'center' },
-        { title: '宿舍号', dataIndex: '', key: '', align: 'center' },
-        { title: '空余床位', dataIndex: '', key: '', align: 'center' },
-        { title: '总床位', dataIndex: '', key: '', align: 'center' },
-        { title: '房间类型', dataIndex: '', key: '', align: 'center' },
-        { title: '所在区域', dataIndex: '', key: '', align: 'center' }],
-        data: [],
+        { title: '楼层', dataIndex: 'floorNumber', key: 'floorNumber', align: 'center' },
+        // { title: '宿舍号', dataIndex: 'rooms', key: 'rooms', align: 'center',render:(record,text)=>{
+        //     let roomNums = text.rooms.map(t=>t.roomName).join(',')
+        //     return roomNums
+        // } },
+        { title: '空余床位', dataIndex: 'freeBedsCount', key: 'freeBedsCount', align: 'center' },
+        { title: '总床位', dataIndex: 'bedCount', key: 'bedCount', align: 'center' },
+        // { title: '房间类型', dataIndex: '', key: '', align: 'center' },
+        // { title: '所在区域', dataIndex: '', key: '', align: 'center' }
+       ],
+        data:props.floors.map((f,index)=>({id:index,buildingName:f.buildingName,floorNumber:f.floorNumber,freeBedsCount:f.freeBedsCount,bedCount:f.bedCount})),
         pagination: props.pagination,
         loading: false,
         rowSelection: {
+            onChange: (selectedRowKeys, selectedRows) => {
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+                const {dispatch} = props
+                if(selectedRows.length>0){
+                    dispatch({type:'checkIn/save',payload:{disabled:false,current:2}})
+
+                }else{
+                    dispatch({type:'checkIn/save',payload:{disabled:true,current:2}})
+                }
+            },
 
         },
         Cascader: {
@@ -204,7 +233,15 @@ function checkIn(props) {
         }
 
     }
-
+   
+    function tableconfirm(){
+        const {dispatch,selectColloges,selectRooms} = props
+        if(selectColloges.length===0||selectRooms.length===0){
+            message.info('请确认第一步或者第二部已完成')
+            return
+        }
+        dispatch({type:'checkIn/distributeDorm',payload:{colleges:selectColloges,rooms:selectRooms}})
+    }
 
     return (
         <Layout style={{ height: '100%' }}>
@@ -221,7 +258,8 @@ function checkIn(props) {
                 <Carousel dots={false} ref={el => (slider = el)}>
                     <TableList table={table} search={true} btnFunctions={{ refreshBtn: true }}></TableList>
                     <TableList table={table2} search={true} btnFunctions={{ refreshBtn: true }}></TableList>
-                    <TableList table={table3} search={true} btnFunctions={{ refreshBtn: true, confirmBtn: true }}></TableList>
+                    <TableList table={table3} search={true} 
+                    btnFunctions={{refreshBtn: true,confirmBtn:{confirm:tableconfirm,disabled:props.disabled}}}></TableList>
 
                 </Carousel>
 
@@ -230,8 +268,8 @@ function checkIn(props) {
 
             </Content>
             <Footer className='selfFlex selfFlexSpaceBetween'>
-                <Pagination defaultCurrent={1} total={3} pageSize={1} />
-                {console.log(props.reserve)}
+                {/* <Pagination defaultCurrent={1} total={3} pageSize={1} /> */}
+                <div></div>
                 {!props.reserve && <Button type="primary" onClick={nextStep}>下一步</Button>}
                 {props.reserve && <Button type="primary" onClick={preStep}>上一步</Button>}
             </Footer>
@@ -246,6 +284,10 @@ export default connect((state) => {
         current: checkIn.current,
         loading: loading.models.checkIn,
         reserve: checkIn.reserve,
-        buildings:checkIn.builds
+        buildings:checkIn.builds,
+        floors:checkIn.floors,
+        selectRooms:checkIn.selectRooms,
+        selectColloges:checkIn.selectColloges,
+        disabled:state.checkIn.disabled
     }
 })(checkIn)

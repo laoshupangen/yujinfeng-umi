@@ -61,17 +61,17 @@ class Campus extends Component {
   }
 
   componentDidMount() {
-    // this.map = new BMap.Map("bMap", {
-    //   enableClick: true,
-    // });
-    // // BMap.Point(115.835319, 28.662582)
-    // let point = new BMap.Point(120.78961,30.751547)
-    // this.map.enableAutoResize()
-    // this.map.enableScrollWheelZoom()
-    // this.map.centerAndZoom(point, 18);
-    //  this.map.setMapStyle({
-    //   styleId: '65a2034e61a54228c1bb34e99780e977'
-    // });
+    this.map = new BMap.Map("bMap", {
+      enableClick: true,
+    });
+    // BMap.Point(115.835319, 28.662582)
+    let point = new BMap.Point(120.78961,30.751547)
+    this.map.enableAutoResize()
+    this.map.enableScrollWheelZoom()
+    this.map.centerAndZoom(point, 18);
+     this.map.setMapStyle({
+      styleId: '65a2034e61a54228c1bb34e99780e977'
+    });
     
 
   }
@@ -144,23 +144,23 @@ class Campus extends Component {
 
 
   render() {
-    // this.addMarks()
-    // return (
-    //   <div style={{ width: '100%', height: '85%' }} id="bMap" ></div>
-    // )
+    this.addMarks()
     return (
-      <div style={{ width: '100%', height: '85%'}} className={styles.bMap}>
-        <img className={styles.imgtest} src={pic}/>
-        {
-          this.props.data.map((d,index)=>(
-            <div key={index} className={styles.icon} style={{top:`2${index/2+5}0px`,left:`4${index*2+5}0px`}}>
-              <Tooltip title="百度地图无法">
-                <Icon type="eye" onClick={()=>this.iconClick(d)} theme="twoTone" twoToneColor="darkblue"></Icon>
-              </Tooltip></div>
-          ))
-        }
-      </div>
+      <div style={{ width: '100%', height: '85%' }} id="bMap" ></div>
     )
+    // return (
+    //   <div style={{ width: '100%', height: '85%'}} className={styles.bMap}>
+    //     <img className={styles.imgtest} src={pic}/>
+    //     {
+    //       this.props.data.map((d,index)=>(
+    //         <div key={index} className={styles.icon} style={{top:`2${index/2+5}0px`,left:`4${index*2+5}0px`}}>
+    //           <Tooltip title="百度地图无法">
+    //             <Icon type="eye" onClick={()=>this.iconClick(d)} theme="twoTone" twoToneColor="darkblue"></Icon>
+    //           </Tooltip></div>
+    //       ))
+    //     }
+    //   </div>
+    //)
   }
 }
 

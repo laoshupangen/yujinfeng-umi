@@ -50,15 +50,15 @@ function TableList(props) {
     function cascaderChange() {
 
     }
+    
     // const treeData =;
     return (
         <div>
-
             <div style={{ padding: '10px' }}>
                 {btnFunctions.addBtn && <Button style={{ marginRight: '10px' }}>增加</Button>}
                 {btnFunctions.refreshBtn && <Button style={{ marginRight: '10px' }} onClick={refresh} type="primary"><Icon type="redo"></Icon></Button>}
-                {btnFunctions.confirmBtn && <Button style={{ marginRight: '10px' }} type="primary">确认分配</Button>}
-                {table.treeSelect && <TreeSelect treeData={table.treeSelect.treeData} style={{ width: 200, marginRight: '10px' }}
+                {btnFunctions.confirmBtn && <Button style={{ marginRight: '10px' }} disabled={btnFunctions.confirmBtn.disabled} onClick={btnFunctions.confirmBtn.confirm} type="primary">确认分配</Button>}
+                {/* {table.treeSelect && <TreeSelect treeData={table.treeSelect.treeData} style={{ width: 200, marginRight: '10px' }}
                     dropdownStyle={{ maxHeight: 400, overflow: 'auto' }} placeholder={table.treeSelect.placeholder} onChange={treeChange}></TreeSelect>}
                 {table.select && <Select placeholder={table.select.placeholder} style={{ width: 100, marginRight: '10px' }} onChange={selectChange}>
                     {
@@ -68,7 +68,7 @@ function TableList(props) {
                 </Select>}
 
                 {table.Cascader && <Cascader style={{ marginRight: '10px' }} placeholder="选择楼栋/楼层" options={table.Cascader.options} onChange={cascaderChange} changeOnSelect></Cascader>}
-                {table.searchBtn && <Button type="primary" ><Icon type="search"></Icon></Button>}
+                {table.searchBtn && <Button type="primary" ><Icon type="search"></Icon></Button>} */}
             </div>
 
             <Table
